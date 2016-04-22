@@ -1,0 +1,20 @@
+﻿@model Os.Brain.Models.Application
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+
+@section CssBlock{
+    .tl{width:350px}
+}
+
+@section Btn{
+    <li class="list"><i></i><a asp-action="Index">列表</a></li>
+    <li class="edit"><i></i><a asp-action="Edit" asp-route-id="@Model.ApplicationId">编辑</a></li>
+}
+
+<table class="tab-list">
+    <tr><td class="tl">应用名称</td><td class="tr">@Html.DisplayFor(model => model.ApplicationName)</td></tr>
+    <tr><td class="tl">应用描述</td><td class="tr">@Html.DisplayFor(model => model.Description)</td></tr>
+    <tr><td class="tl">排序</td><td class="tr">@Html.DisplayFor(model => model.OrderBy)</td></tr>
+</table>

@@ -1,0 +1,202 @@
+﻿@model Os.Brain.ViewModels.SystemApp.UserCreateViewModel
+
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+
+@section CssFileBlock{
+    <script src="/css/Calendar/Calendar.js"></script>
+    <link href="/css/Calendar/CalendarBox.css" rel="stylesheet" />
+}
+
+@section CssBlock{
+    .listTolist i{display:block;margin:12px 5px;cursor:pointer}
+    textarea{width:838px;height:100px;display:block}
+}
+
+@section JsFileBlock{
+    <script src="~/js/ListToList.js"></script>
+}
+
+@section JsBlock{
+    function submitForm(){
+    $('#RoleSelectListValue option').attr("selected","selected")
+    }
+}
+
+@section AutoJsBlock{
+    $('#RoleListValue').dblclick(function(){
+    $.listTolist('RoleListValue','RoleSelectListValue','move',false)
+    })
+
+    $('#RoleSelectListValue').dblclick(function(){
+    $.listTolist('RoleSelectListValue','RoleListValue','move',false)
+    })
+
+    $('#RightAll').click(function(){
+    $.listTolist('RoleListValue','RoleSelectListValue','move',true)
+    })
+
+    $('#Right').click(function(){
+    $.listTolist('RoleListValue','RoleSelectListValue','move',false)
+    })
+
+    $('#LeftAll').click(function(){
+    $.listTolist('RoleSelectListValue','RoleListValue','move',true)
+    })
+
+    $('#Left').click(function(){
+    $.listTolist('RoleSelectListValue','RoleListValue','move',false)
+    })
+
+    $('form').attr('onsubmit','return submitForm()')
+}
+
+
+@section Btn{
+    <li class="list"><i></i><a asp-action="Index">列表</a></li>
+    <li class="back"><i></i><a asp-action="details" asp-route-id="@Model.User.Id">返回</a></li>
+    <li class="delete"><i></i><a asp-action="Delete" asp-route-id="@Model.User.Id">删除</a></li>
+}
+
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="@Model.User.Id" />
+    <input type="hidden" asp-for="@Model.User.ConcurrencyStamp" />
+    <input type="hidden" asp-for="@Model.User.SecurityStamp" />
+
+
+
+
+    <div id="tabs-1" class="tabs-con-box">
+        <table class="tab-list" cellspacing="1">
+            <tr>
+                <td class="tl"><label for="User_UserName">用户名</label></td>
+                <td class="tr">@Html.EditorFor(model => model.Email)</td>
+                <td class="tl">@Html.LabelFor(m => m.Password, new {})</td>
+                <td class="tr">@Html.EditorFor(model => model.Password, new { @readOnly = "true" })</td>
+                <td class="tl">@Html.LabelFor(m => m.User.UserType, new { })</td>
+                <td class="tr">@Html.DropDownListFor(model => model.User.UserType, new SelectList(Enum.GetValues(typeof(Os.Brain.Models.UserType))), new { style = "width:100px" })</td>
+            </tr>
+            <tr>
+                <td class="tl">@Html.LabelFor(m => m.User.LockIp, new { })</td>
+                <td class="tr">@Html.EditorFor(model => model.User.LockIp)</td>
+                <td class="tl">禁止登陆</td>
+                <td class="tr"></td>
+                <td class="tr" colspan="2"></td>
+            </tr>
+            <tr>
+                <td class="tl">@Html.LabelFor(m => m.RoleList, new { })</td>
+                <td class="tr" colspan="5">
+                    <table id="SelectImg" cellspacing="0">
+                        <tr>
+                            <td>
+                                @Html.ListBoxFor(model => model.RoleListValue, new SelectList(Model.RoleList, "Name", "Name"), new { style = "width:100px;height:150px;margin:10px 0" })
+                            </td>
+                            <td class="listTolist">
+                                <i id="RightAll" class="glyphicon glyphicon-step-forward"></i>
+                                <i id="Right" class="glyphicon glyphicon-triangle-right"></i>
+                                <i id="Left" class="glyphicon glyphicon-triangle-left"></i>
+                                <i id="LeftAll" class="glyphicon glyphicon-step-backward"></i>
+                            </td>
+                            <td>
+                                @Html.ListBoxFor(model => model.RoleSelectListValue, new SelectList(Model.RoleSelectList, "Name", "Name"), new { style = "width:100px;height:150px;margin:10px 0" })
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="tabs-2" class="tabs-con-box collapse">
+        <table class="tab-list" cellspacing="1">
+            <tr>
+                <td class="tl" style="width:200px">@Html.LabelFor(m => m.User.Cname, new { })</td>
+                <td class="tr" style="width:200px">@Html.EditorFor(m => m.User.Cname)</td>
+                <td class="tl" style="width:200px" rowspan="4">图片</td>
+                <td class="tr" style="width:200px;padding:3px;margin:0" rowspan="4">
+                    <div id="preview-pane">
+                        <div class="preview-container">
+                        </div>
+                    </div>
+                </td>
+                <td class="tr" rowspan="13" valign="top"></td>
+            </tr>
+            <tr>
+                <td class="tl">@Html.LabelFor(m => m.User.Ename, new { })</td>
+                <td class="tr">@Html.EditorFor(m => m.User.Ename)</td>
+            </tr>
+            <tr>
+                <td class="tl">@Html.LabelFor(m => m.User.NO, new { })</td>
+                <td class="tr">@Html.EditorFor(m => m.User.NO)</td>
+            </tr>
+            <tr>
+                <td class="tl">@Html.LabelFor(m => m.User.Group, new { })</td>
+                <td class="tr">@Html.EditorFor(m => m.User.Group)</td>
+            </tr>
+            <tr>
+                <td class="tl">@Html.LabelFor(m => m.User.ProfessionalTitle, new { })</td>
+                <td class="tr">@Html.EditorFor(m => m.User.ProfessionalTitle)</td>
+                <td class="tl">@Html.LabelFor(m => m.User.IDCard, new { })</td>
+                <td class="tr">@Html.EditorFor(m => m.User.IDCard)</td>
+            </tr>
+            <tr>
+                <td class="tl">@Html.LabelFor(m => m.User.Tel, new { })</td>
+                <td class="tr">@Html.EditorFor(m => m.User.Tel)</td>
+                <td class="tl">@Html.LabelFor(m => m.User.DOB, new { })</td>
+                <td class="tr">@Html.TextBoxFor(m => m.User.DOB, new { @readonly = "readonly", @onclick = "javascript: calendar.setHook(this)", @class = "Calendar" })</td>
+            </tr>
+
+            <tr>
+                <td class="tl">@Html.LabelFor(m => m.User.Mobile, new { })</td>
+                <td class="tr">@Html.EditorFor(m => m.User.Mobile)</td>
+                <td class="tl">@Html.LabelFor(m => m.User.Sex, new { })</td>
+                <td class="tr">@Html.DropDownListFor(model => model.User.Sex, new SelectList(Enum.GetValues(typeof(Os.Brain.Models.Sex))), new { style = "width:125px" })</td>
+            </tr>
+
+            <tr>
+                <td class="tl">@Html.LabelFor(m => m.User.Ext, new { })</td>
+                <td class="tr">@Html.EditorFor(m => m.User.Ext)</td>
+                <td class="tl">@Html.LabelFor(m => m.User.Email, new { })</td>
+                <td class="tr">@Html.EditorFor(m => m.User.Email)</td>
+            </tr>
+            <tr>
+                <td class="tl">@Html.LabelFor(m => m.User.HireDate, new { })</td>
+                <td class="tr">@Html.TextBoxFor(m => m.User.HireDate, "{0:yyyy-MM-dd}", new { @readonly = "readonly", @onclick = "javascript: calendar.setHook(this)", @class = "Calendar" })</td>
+                <td class="tl"></td>
+                <td class="tr"></td>
+
+            </tr>
+            <tr>
+                <td class="tl">@Html.LabelFor(m => m.User.ResignationDate)</td>
+                <td class="tr">@Html.TextBoxFor(m => m.User.ResignationDate, "{0:yyyy-MM-dd}", new { @readonly = "readonly", @onclick = "javascript: calendar.setHook(this)", @class = "Calendar" })</td>
+                <td class="tl"></td>
+                <td class="tr"></td>
+            </tr>
+            <tr>
+                <td class="tl" colspan="4">@Html.LabelFor(m => m.User.Description, new { })</td>
+            </tr>
+            <tr>
+                <td class="tr" colspan="4" style="padding:1px">@Html.TextAreaFor(m => m.User.Description, new { })</td>
+            </tr>
+            <tr>
+                <td class="tr" colspan="4"></td>
+            </tr>
+        </table>
+    </div>
+    <div id="tabs-3" class="tabs-con-box collapse"></div>
+    <div style="text-align:right;padding:5px 10px 0 0">
+        <input class="btn btn-danger btn-xs" type="submit" value=" 确 定 " />
+    </div>
+</form>
+
+@section TabsLi{
+    <li data-val="#tabs-2" class="clearfix">
+        <div><div>用户资料</div></div>
+    </li>
+    <li data-val="#tabs-3" class="clearfix">
+        <div><div>个人设置</div></div>
+    </li>
+}

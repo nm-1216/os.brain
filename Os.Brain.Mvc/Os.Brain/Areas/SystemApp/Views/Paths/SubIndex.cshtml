@@ -1,0 +1,40 @@
+﻿@model Os.Brain.Mvc.Pager.PageList<Os.Brain.Models.Path>
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+
+@section CssBlock{
+    .tab-list td{text-align:center}
+}
+
+@section Btn{
+    <li class="add"><i></i><a asp-action="Create" asp-route-ApplicationId="@ViewBag.ApplicationId">添加新模块</a></li>
+}
+
+<table class="tab-list">
+    <tr>
+        <th width="350">模块分类名称</th>
+        <th width="350">模块分类编码</th>
+        <th>模块路径</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr class="tr@(Model.ToList().IndexOf(item)%2+1)">
+        <td>
+            @Html.ActionLink(item.PathName, "Details", new { id = item.PathId })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PathCategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item._Path)
+        </td>
+    </tr>
+    }
+
+</table>
+@Html.Raw(Os.Brain.Mvc.Pager.Pager.Pager1(Context.Request.Path.Value, Model.CurrPage, Model.PageSize, Model.PageCount, Model.RecordCount))
+
+

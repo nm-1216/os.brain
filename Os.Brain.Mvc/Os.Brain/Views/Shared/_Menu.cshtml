@@ -1,0 +1,13 @@
+﻿@{
+    Layout = null;
+
+    string[] temp = ViewData["menu"] as string[];
+}
+<div class="os-bd-menu">
+    <div class="tabs">
+        <ul class="clearfix">           
+            @(new HtmlString(temp[0]))
+        </ul>
+        @(new HtmlString(temp[1]))
+    </div>
+</div>

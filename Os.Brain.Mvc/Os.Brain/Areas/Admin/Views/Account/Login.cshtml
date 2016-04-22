@@ -1,0 +1,37 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNet.Http
+@using Microsoft.AspNet.Http.Authentication
+@model LoginViewModel
+@inject SignInManager<User> SignInManager
+@{
+    Layout = "_Layout2";
+    ViewBag.Title = "登录";
+}
+@section HeadBlock {
+    <link rel="stylesheet" href="~/images/Login/Login.css" />
+}
+
+<div class="div_1">
+    <div class="div_box">
+        <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" role="form">
+            <div class="div_input">
+                <div class="div_name"><input asp-for="Email" class="input_txt" maxlength="20" /></div>
+                <div class="div_pwd"><input asp-for="Password" class="input_txt" maxlength="20" /></div>
+                <div style="display:none"><input asp-for="RememberMe" checked="checked" /></div>
+            </div>
+            <div class="div_btn"><input type="submit" value="登 录" class="input_btn" onMouseOver="this.style.backgroundImage='url(/images/login/BgLoginBtnOn.png'" onMouseOut="this.style.backgroundImage='url(/images/login/BgLoginBtnOver.png)'" /></div>
+
+            <div asp-validation-summary="ValidationSummary.All" class="text-danger"></div>
+
+        </form>
+    </div>
+</div>
+
+
+<environment names="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+</environment>
+<environment names="Staging,Production">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+</environment>
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

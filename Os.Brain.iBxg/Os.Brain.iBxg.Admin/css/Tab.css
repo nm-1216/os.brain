@@ -1,0 +1,4 @@
+﻿.Menubox{background:url(../image/nav.gif);height:28px;line-height:28px;}
+.Menubox li{float:left;display:block;cursor:pointer;width:114px;text-align:center;color:#949694;font-weight:bold;background:url(../image/nav1.gif)}
+.Menubox li.hover{background:#fff;width:116px;border:1px solid #A8C29F;border-bottom:0;background:url(../image/nowaday.gif);color:#739242;font-weight:bold;height:27px;line-height:27px;}
+.Contentbox{clear:both;border:1px solid #A8C29F;border-top:0;padding:8px 5px;}

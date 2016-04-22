@@ -1,0 +1,19 @@
+﻿body,form,html{margin:0;padding:0;border:0}
+html,body{width:100%;height:100%}
+html{overflow:hidden}
+body{background:#01559F;}
+.div_1{border-bottom:4px solid #000;position:absolute;bottom:60px;width:100%;background:url('BgLogin.png') bottom right no-repeat white; text-align:right;height:102px;padding-top:240px}
+input{cursor:pointer}
+.input_txt{width:112px;border:1px solid #5797BD;background:#F2EFF1;height:16px;padding-left:3px}
+.input_btn{width:58px;height:53px;background:url('BgLoginBtnOver.png') no-repeat;border:0}
+
+.div_btn{width:61px;height:56px;padding:2px 3px 0 0;float:right}
+.div_name{background:url('BgUserName.gif') 0 7px no-repeat;height:30px;padding-top:3px;*padding-top:2px}
+.div_pwd{background:url('BgPassWord.gif') 0 7px no-repeat;height:30px;padding-top:2px}
+.div_box{width:250px;height:90px;margin:0 10px 0 auto}
+.div_input{width:180px;float:left}
+
+.text-danger {height:24px;clear:both;padding-left:15px}
+    .text-danger ul, .text-danger li {
+    margin:0;padding:0}
+    .text-danger li{text-align:left;font-size:12px;color:red}

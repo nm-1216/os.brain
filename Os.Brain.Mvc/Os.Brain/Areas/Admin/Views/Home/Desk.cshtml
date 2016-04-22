@@ -1,0 +1,16 @@
+﻿@inject IOptions<AppSettings> AppSettings
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+
+
+
+<table class="tab-list table">
+    <tr><td class="tl">权限框架名称</td><td class="tr">@AppSettings.Value.FrameWorkName</td></tr>
+    <tr><td class="tl">权限框架版本</td><td class="tr">@AppSettings.Value.FrameWorkVersion</td></tr>
+    <tr><td class="tl">应用系统名称</td><td class="tr">@AppSettings.Value.AppName</td></tr>
+    <tr><td class="tl">应用系统版本</td><td class="tr">@AppSettings.Value.AppVersion</td></tr>
+    <tr><td class="tl">官方网站</td><td class="tr"><a href="@AppSettings.Value.FrameWorkWeb" target="_blank">@AppSettings.Value.FrameWorkWeb</a></td></tr>
+    <tr><td class="tl"></td><td class="tr"></td></tr>
+</table>

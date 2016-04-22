@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Os.Brain.Models.Role>
+
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+
+@section CssBlock{
+    .tab-list td{text-align:center}
+}
+@section Btn{
+    <li class="add"><i></i><a asp-action="Create">添加</a></li>
+}
+
+<table class="tab-list">
+    <tr>
+        <th width="350">@Html.DisplayNameFor(model => model.Name)</th>
+        <th>@Html.DisplayNameFor(model => model.NormalizedName)</th>
+        <th>部门</th>
+        <th>用户</th>
+        <th>路径</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr class="tr@(Model.ToList().IndexOf(item)%2+1)">
+        <td>
+            <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NormalizedName)
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    }
+
+</table>

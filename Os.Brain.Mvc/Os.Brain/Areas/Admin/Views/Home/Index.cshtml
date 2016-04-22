@@ -1,0 +1,108 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNet.Http
+@using Microsoft.AspNet.Http.Authentication
+
+@{
+    ViewBag.Title = "";
+}
+
+@section CssFileBlock{
+    <link rel="stylesheet" href="~/css/Layout.css" />
+    <script src="~/lib/layer/layer.js"></script>
+}
+
+<div class="os-bd-top"><div></div></div>
+@{ await Html.RenderPartialAsync("_Menu"); }
+
+
+<div class="os-fw">
+    <iframe id="mainFrame" name="mainFrame" style="height:100%;width:100%; overflow:auto" frameborder="0" src="home/desk"></iframe>
+</div>
+
+<form asp-controller="Account" asp-route-area="admin" asp-action="LogOff" method="post" id="logoutForm">
+    <table class="os-bd-btm">
+        <tr>
+            <td class="t0">权限管理系统 Powered By: Os.Brain Team 技术支持：<a href="mailto:o7o@outlook.com?subject=Os.Brain Question&body=Os.Brain Question">o7o@outlook.com</a></td>
+            <td class="t1" onclick="javascript:void(0)"><i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i> 版本信息</td>
+            <td class="t2" onclick="javascript:void(0)"><i class="glyphicon glyphicon-th-list" aria-hidden="true"></i> 登陆日志</td>
+            <td class="t3" onclick="javascript:void(0)"><i class="glyphicon glyphicon-cog" aria-hidden="true"></i> 个人设定</td>
+            <td class="t4" onclick="javascript: window.mainFrame.location.href = '/home/desk'"><i class="glyphicon glyphicon-home" aria-hidden="true"></i> 回到首页</td>
+            <td class="t5" onclick="javascript:if(confirm('你确定要退出系统吗？')){ document.getElementById('logoutForm').submit()}"><i class="glyphicon glyphicon-off" aria-hidden="true"></i> 退出系统</td>
+            <td class="t6" onclick="javascript:void(0)"><i class="glyphicon glyphicon-question-sign" aria-hidden="true"></i> 帮助手册</td>
+        </tr>
+    </table>
+</form>
+
+
+<script>
+    $(window).resize(function () {
+        $(".os-fw").css("height", ($(window).height() - 144) + "px");
+    });
+    $(function () {
+        $(".os-fw").css("height", ($(window).height() - 144) + "px");
+
+        $('.os-bd-menu div.tabs>ul li:even').hover(
+            function () { $(this).addClass('over') },
+            function () { $(this).removeClass('over') }
+        )
+
+        $('.os-bd-menu div.tabs>ul li:even').click(
+            function () {
+                $('.os-bd-menu div.tabs>ul li:even').removeClass('on')
+                $(this).addClass('on')
+                $('.os-bd-menu div.tabs>div').hide()
+                $($(this).attr('data-val') + '').show()
+            }
+        )
+
+        $('.tab_con li.data_val').hover(
+            function () { $(this).addClass('on') },
+            function () { $(this).removeClass('on') }
+        )
+
+        $('.tab_con li.data_val').click(
+            function () {
+                $('.tab_con li.data_val').removeClass('click')
+                $(this).addClass('click')
+                window.parent.mainFrame.location.href = $(this).attr('data-val');
+            }
+        )
+
+        $('.t1').on('click', function () {
+            layer.alert('用户虐我千百遍,我待用户如初恋...', {
+                skin: 'layui-layer-molv'
+            , closeBtn: 0,
+                icon: 6,
+                shift: 2
+            });
+        });
+
+        $('.t2').on('click', function () {
+            layer.open({
+                type: 2,
+                title: '登录日志',
+                skin: 'layui-layer-molv',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['500px', '270px'],
+                content: '/admin/account/loginlogs' //iframe的url
+            });
+        });
+
+        $('.t3').on('click', function () {
+            layer.open({
+                type: 2,
+                title: '个人设置',
+                skin: 'layui-layer-molv',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['350px', '400px'],
+                content: '/admin/account/ChangePassword' //iframe的url
+            });
+        });
+
+    })
+
+</script>
+
+

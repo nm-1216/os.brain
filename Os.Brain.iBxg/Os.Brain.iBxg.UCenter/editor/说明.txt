@@ -1,0 +1,6 @@
+﻿<%@ Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor" %>
+<%@ Register Assembly="CKFinder" Namespace="CKFinder" TagPrefix="CKFinder" %>
+
+<CKEditor:CKEditorControl ID="CKEditor1" runat="server"></CKEditor:CKEditorControl>
+<CKFinder:FileBrowser ID="FileBrowser1" SelectFunction="ShowFileInfo" Height="600" runat="server"></CKFinder:FileBrowser>
+

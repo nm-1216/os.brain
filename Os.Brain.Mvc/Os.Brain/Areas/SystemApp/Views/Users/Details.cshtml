@@ -1,0 +1,132 @@
+﻿@model Os.Brain.ViewModels.SystemApp.UserCreateViewModel
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+
+@section CssBlock{
+}
+
+@section Btn{
+    <li class="list"><i></i><a asp-action="Index">列表</a></li>
+    <li class="edit"><i></i><a asp-action="Edit" asp-route-id="@Model.User.Id">编辑</a></li>
+}
+
+@section TabsLi{
+    <li data-val="#tabs-2" class="clearfix"><div><div>用户资料</div></div></li>
+    <li data-val="#tabs-3" class="clearfix"><div><div>个人设置</div></div></li>
+}
+
+<div id="tabs-1" class="tabs-con-box">
+    <table class="tab-list" cellspacing="1">
+        <tr>
+            <td style="width:16%" class="tl">@Html.DisplayNameFor(m => m.User.Email)</td>
+            <td style="width:16%" class="tr">@Html.DisplayFor(m => m.User.Email)</td>
+            <td style="width:16%" class="tl"></td>
+            <td style="width:16%" class="tr"></td>
+            <td style="width:16%" class="tl">@Html.DisplayNameFor(m => m.User.UserType)</td>
+            <td style="width:16%" class="tr">@Html.DisplayFor(m => m.User.UserType)</td>
+        </tr>
+        <tr>
+            <td class="tl">@Html.DisplayNameFor(m => m.User.LockIp)</td>
+            <td class="tr">@Html.DisplayFor(model => model.User.LockIp)</td>
+            <td class="tl">禁止登陆</td>
+            <td class="tr"></td>
+            <td class="tr" colspan="2"></td>
+        </tr>
+
+        <tr>
+            <td class="tl">@Html.DisplayNameFor(m => m.RoleList)</td>
+            <td class="tr" colspan="5">
+                <table id="SelectImg" cellspacing="0">
+                    <tr>                        
+                        <td>
+                            @Html.ListBoxFor(model => model.RoleSelectListValue, new SelectList(Model.RoleSelectList, "Name", "Name"), new { style = "width:100px;height:150px;margin:10px 0", disabled= "disabled" })
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="tabs-2" class="tabs-con-box collapse">
+    <table class="tab-list" cellspacing="1">
+        <tr>
+            <td class="tl" style="width:200px">@Html.DisplayNameFor(m => m.User.Cname)</td>
+            <td class="tr" style="width:200px">@Html.DisplayFor(m => m.User.Cname)</td>
+            <td class="tl" style="width:200px" rowspan="4">图片</td>
+            <td class="tr" style="width:200px;padding:3px;margin:0" rowspan="4">
+                <div id="preview-pane">
+                    <div class="preview-container">
+                    </div>
+                </div>
+            </td>
+            <td class="tr" rowspan="13" valign="top"></td>
+        </tr>
+        <tr>
+            <td class="tl">@Html.DisplayNameFor(m => m.User.Ename)</td>
+            <td class="tr">@Html.DisplayFor(m => m.User.Ename)</td>
+        </tr>
+        <tr>
+            <td class="tl">@Html.DisplayNameFor(m => m.User.NO)</td>
+            <td class="tr">@Html.DisplayFor(m => m.User.NO)</td>
+        </tr>
+        <tr>
+            <td class="tl">@Html.DisplayNameFor(m => m.User.Group)</td>
+            <td class="tr">@Html.DisplayFor(m => m.User.Group)</td>
+        </tr>
+        <tr>
+            <td class="tl">@Html.DisplayNameFor(m => m.User.ProfessionalTitle)</td>
+            <td class="tr">@Html.DisplayFor(m => m.User.ProfessionalTitle)</td>
+            <td class="tl">@Html.DisplayNameFor(m => m.User.IDCard)</td>
+            <td class="tr">@Html.DisplayFor(m => m.User.IDCard)</td>
+        </tr>
+        <tr>
+            <td class="tl">@Html.DisplayNameFor(m => m.User.Tel)</td>
+            <td class="tr">@Html.DisplayFor(m => m.User.Tel)</td>
+            <td class="tl">@Html.DisplayNameFor(m => m.User.DOB)</td>
+            <td class="tr">@Html.DisplayFor(m => m.User.DOB)</td>
+        </tr>
+
+        <tr>
+            <td class="tl">@Html.DisplayNameFor(m => m.User.Mobile)</td>
+            <td class="tr">@Html.DisplayFor(m => m.User.Mobile)</td>
+            <td class="tl">@Html.DisplayNameFor(m => m.User.Sex)</td>
+            <td class="tr">@Html.DisplayFor(model => model.User.Sex)</td>
+        </tr>
+
+        <tr>
+            <td class="tl">@Html.DisplayNameFor(m => m.User.Ext)</td>
+            <td class="tr">@Html.DisplayFor(m => m.User.Ext)</td>
+            <td class="tl">@Html.DisplayNameFor(m => m.User.Email)</td>
+            <td class="tr">@Html.DisplayFor(m => m.User.Email)</td>
+        </tr>
+        <tr>
+            <td class="tl">@Html.DisplayNameFor(m => m.User.HireDate)</td>
+            <td class="tr">@Html.DisplayFor(m => m.User.HireDate)</td>
+            <td class="tl"></td>
+            <td class="tr"></td>
+
+        </tr>
+        <tr>
+            <td class="tl">@Html.DisplayNameFor(m => m.User.ResignationDate)</td>
+            <td class="tr">@Html.DisplayFor(m => m.User.ResignationDate)</td>
+            <td class="tl"></td>
+            <td class="tr"></td>
+        </tr>
+        <tr>
+            <td class="tl" colspan="4">@Html.DisplayNameFor(m => m.User.Description)</td>
+        </tr>
+        <tr>
+            <td class="tr" colspan="4" style="padding:1px">@Html.DisplayFor(m => m.User.Description)</td>
+        </tr>
+        <tr>
+            <td class="tr" colspan="4"></td>
+        </tr>
+    </table>
+</div>
+<div id="tabs-3" class="tabs-con-box collapse"></div>
+
+<div style="text-align:right;padding:5px 10px 0 0">
+    <input class="btn btn-danger btn-xs" type="submit" value=" 确 定 " />
+</div>

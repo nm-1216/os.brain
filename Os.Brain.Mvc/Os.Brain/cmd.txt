@@ -1,0 +1,24 @@
+﻿Import-Module C:\Users\yuezhongxin.kpm\packages\EntityFramework.Commands\7.0.0-beta1\tools\EntityFramework.psd1
+Install-Package EntityFramework.Commands -IncludePrerelease
+
+dnvm use 1.0.0-rc1-final
+dnvm use 1.0.0-rc1-update1
+dnx . ef migration add InitialCreate
+dnu restore
+dnx . ef migration add newBook
+
+dnx . ef migration apply
+
+dnvm upgrade 1.0.0-rc1-final
+dnvm upgrade -u -r clr
+dnu restore
+
+//"web": "Microsoft.AspNet.Hosting --config hosting.ini",
+dnx ef migration apply
+
+dnx ef database update
+dnx ef migrations add LoginLogs
+
+dnx ef migrations remove
+
+Set-ExecutionPolicy Unrestricted -Scope Process

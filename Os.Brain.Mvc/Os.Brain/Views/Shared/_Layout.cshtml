@@ -1,0 +1,45 @@
+﻿@inject IOptions<AppSettings> AppSettings
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@string.Format("{0} - {1}", ViewData["Title"], AppSettings.Value.SiteTitle).Trim(' ', '-')</title>
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+    </environment>
+
+    <!-- 样式文件区域 开始 -->
+    @RenderSection("CssFileBlock", required: false)
+
+    <!-- 脚本文件区域 开始 -->
+    @RenderSection("JsFileBlock", required: false)
+
+    <!-- 样式区域 开始 -->
+    @RenderSection("CssBlock", required: false)
+
+    <!-- 脚本区域 开始 -->
+    <script type="text/javascript">
+        @RenderSection("JsBlock", required: false)
+    </script>
+
+    <!-- 自动运行脚本区域 开始 -->
+    <script type="text/javascript">
+        $(function () {
+            @RenderSection("AutoJsBlock", required: false)
+        })
+    </script>
+</head>
+<body>
+    @RenderBody()
+</body>
+</html>

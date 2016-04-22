@@ -1,0 +1,25 @@
+/* CalendarBox Start  */
+
+#CalendarBox{width:200px;height:auto;border:1px #468DDD solid;padding-top:1px;overflow:inherit}
+#CalendarBox *{font:12px "宋体",sans-serif;text-align:center;}
+#CalendarBox table{width:100%;border-collapse:collapse;border-left:1px solid #fff;border-right:1px solid #fff}
+#CalendarBox td{margin:0;padding:0;border:0;vertical-align:middle}
+#CalendarBox .fb{font-weight:bold}
+#CalendarBox .tl{text-align:left}
+#CalendarBox .tr{text-align:right}
+#CalendarBox .h{height:20px;background:#468DDD;color:#fff}
+#CalendarBox .h td{padding:3px 3px 0 3px}
+#CalendarBox .h a{color:#fff;text-decoration:none}
+#CalendarBox .c{background:#f5f5f5}
+#CalendarBox .c td{padding:3px 3px 0 3px}
+#CalendarBox .c a{text-decoration:none;background:url(../image/Point.gif) 0 2px no-repeat}
+#CalendarBox .c a.right{text-decoration:none;background:url(../image/Point.gif) -18px 2px no-repeat}
+#CalendarBox .c .tc{color:#f00;font-weight:bold}
+#CalendarBox .b{background:#fff;height:auto;border:0}
+#CalendarBox .b td{padding:3px;border:1px solid #fff;background:#EFEFEF;cursor:pointer}
+#CalendarBox .b th{padding:4px 0 2px 0;border:1px solid #fff;padding:4px 0 2px 0;background:#cdd;cursor:default}
+#CalendarBox .b td.cn{cursor:default;background-color:#F6F6F6}
+#CalendarContainer{width:200px; height:auto; position:absolute; z-index:999;overflow:visible}
+#CalendarContainerIfream{width:196px;height:auto; position:absolute; z-index:998}
+
+/* CalendarBox End  */

@@ -1,0 +1,97 @@
+<public:component>
+
+<public:attach event="ondocumentready" handler="Init" />
+
+<script>
+
+var colorOne='#FFF';	//交替颜色一
+var colorTwo='#ddd';	//交替颜色二
+var colorOnClick='#FF9966';		//标记颜色
+var colorOnMouseOver='#339999'	//鼠标移动颜色
+
+var row_marked = Array();	//标记数组
+
+function Init(){
+	this.style.borderCollapse='collapse';
+	this.style.border='1px solid #999';
+	var tr=this.rows;
+	for(i=0;i< tr.length ;i++){
+		tr[i].style.backgroundColor=color(i);	//初始化交替颜色
+		tr[i].attachEvent("onclick",onRowClick);	//添加点击事件
+		tr[i].attachEvent("onmouseover",onRowOver);	//添加鼠标移动事件
+		tr[i].attachEvent("onmouseout",onRowOut);	//添加鼠标移出事件
+	}
+}
+
+function onRowClick(line)
+{
+	index=(line==null||line=="[object]")?rowIndex():line;
+	if(index==0)
+		return;
+	whichIt = document.all?event.srcElement:event.target;
+	while (whichIt.tagName != "A") {
+		whichIt = document.all?whichIt.parentElement:whichIt.parentNode;
+		if (whichIt == null){
+			break;
+		}
+	}
+	if (whichIt != null){
+		return;
+	}
+
+	if(row_marked[index]==null||!row_marked[index]){
+		row_marked[index]=true;
+		row.style.backgroundColor =colorOnClick;
+	}
+	else{
+		row_marked[index]=false;
+		row.style.backgroundColor =color(index);
+	}
+}
+
+function onRowOver(){
+	if(rowIndex()==0)
+		return;
+	if(row_marked[rowIndex()]==null||!row_marked[rowIndex()]){
+		row.style.backgroundColor=colorOnMouseOver;
+	}
+}
+
+function onRowOut(){
+	if(rowIndex()==0)
+		return;
+	if(row_marked[rowIndex()]==null||!row_marked[rowIndex()]){
+		row.style.backgroundColor=color(rowIndex());
+	}
+}
+
+function rowIndex(){
+	row=event.srcElement;
+	row=eval(getTR(row));
+	return row.rowIndex;
+}
+
+function color(index){
+	if(index==0)
+		return;
+	return (index%2==0)?colorOne:colorTwo;
+}
+
+function row(index){
+	return element.rows[index];
+}
+
+function getTR(obj){
+	var obj=document.all?event.srcElement:event.target
+	obj = document.all?event.srcElement:event.target;
+	while (obj.tagName != "TR") {
+	obj = document.all?obj.parentElement:obj.parentNode;
+	if (obj == null){
+	return null
+	}
+	}
+	return obj;
+
+}
+</script>
+</public:component>

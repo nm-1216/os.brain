@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<updateFiles>
+  <file path="Os.Brain.Core.dll"  url="http://www.hwx.com/Os.Brain.Core.zip" lastver="1.0.0.0" size="28672" needRestart="true" />
+  <file path="Os.Brain.Data.dll"  url="http://www.hwx.com/Os.Brain.Data.zip" lastver="1.1.0.0" size="888832 " needRestart="true" />
+  <file path="bb.mp4"  url="http://www.hwx.com/aa.zip" lastver="1.1.0.1" size="491524881 " needRestart="true" />
+</updateFiles>

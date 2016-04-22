@@ -1,0 +1,72 @@
+@model Os.Brain.Models.Path
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+</head>
+<body>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>Path</h4>
+        <hr />
+        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="ApplicationId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="ApplicationId" class ="form-control"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ParentId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="ParentId" class ="form-control"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="PathCategory" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="PathCategory" class="form-control" />
+                <span asp-validation-for="PathCategory" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="PathName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="PathName" class="form-control" />
+                <span asp-validation-for="PathName" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="_Path" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="_Path" class="form-control" />
+                <span asp-validation-for="_Path" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+</body>
+</html>

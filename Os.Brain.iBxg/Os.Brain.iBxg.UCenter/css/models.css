@@ -1,0 +1,15 @@
+﻿
+#site-nav{background:#f4f3f2;border-bottom:1px solid #ccc;padding:4px 0 3px 0;color:#ccc}
+#site-nav li{list-style:none outside none;float:left;background-position:right 6px;padding:1px 10px 0;margin-left:-1px;border-left:1px solid #ccc}
+#site-nav li.cart a{display:block;width:54px;text-align:right;background:url(../images/tools.gif) -1px -5px no-repeat}
+#site-nav li.search a{display:block;width:38px;text-align:right;background:url(../images/tools.gif) -1px -21px no-repeat}
+#site-nav a:link,#site-nav a:visited{color:#666;text-decoration:none}
+
+
+.full{width:960px}
+
+
+.menu-item{}
+.menu-hd{}
+.menu-bd{}
+

@@ -1,0 +1,1499 @@
+﻿<%--
+Name:CodeTemplate
+Author: Hwx
+Description: CodeTemplate
+            结合新的SQL语句 2013-03-16;
+            调整DBNull 赋值时出现的未将对象创建成实例 2013-08-27;
+            配合大侠 出新的权限管理系统 2013-12-22;
+            适配快速开发（迈尔斯通） 添加模版类型ALL，一次生成所有数据 2014-08-06
+            添加GetDataSet 函数  2015-02-02
+            重新编写，适应所以数据类型，屏蔽部分SQL注入（存储过程还没有屏蔽）
+            改写分页存储过程参数类型 2016-04-15
+--%>
+<%-- 任何模板都需要的第一句，用来指定模板编辑语言是什么，目标语言是什么：--%>
+
+<%@ CodeTemplate Language="C#" TargetLanguage="C#" Debug="True" Description="Create SQLite DDL from source database." %>
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="CodeSmith.BaseTemplates" %>
+<%@ Assembly Name="System.Data" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="System.Data" %>
+<%@ Import Namespace="System.Text" %>
+
+<%@ Property Category="1.命名空间" Name="NameSpace" Optional="False" Default="com" Type="String" Description="Project Name Space" %>
+<%@ Property Category="2.数据表" Name="DatabaseType" Type="DatabaseTypeModel" Default="" Optional="False" Description="" Editor="" EditorBase="" Serializer="" %>
+<%@ Property Category="2.数据表" Name="SourceTable" Type="SchemaExplorer.TableSchema" Default="" Optional="False" Description="" Editor="" EditorBase="" Serializer="" Description="Table Name" %>
+<%@ Property Category="3.模板类型" Name="Template" Type="TemplateModel" Default="" Optional="False" Description="" Editor="" EditorBase="" Serializer="" %>
+<%@ Property Category="4.列表实体列" Name="SelectedColumns" Filter="SourceTable" Type="SchemaExplorer.ColumnSchemaCollection" Description="Select the columns." %>
+<%@ Property Category="5.需要搜索的列" Name="SearchColumns" Filter="SourceTable" Type="SchemaExplorer.ColumnSchemaCollection" Description="Select the columns." %>
+
+
+<%@ Map Name="SqlCSharp" Src="Sql-CSharp" Description="System to C# Type Map" %>
+<%@ Map Name="DbDataReader" Src="DbType-DataReaderMethod" Description="DbType to DataReader Method Map" %>
+<%@ Map Name="SqlNativeSqlDb" Src="SqlNativeType-SqlDbType" Description="SqlNativeType to SqlDbType Map" %>
+<%@ Map Name="DbTypeCSharp" Src="DbType-CSharp" Description="DbType to CSharp Map" %>
+//----------------------------------------------------------------------------------------------------------------------------
+// <copyright file="<% =SourceTable.Name %>.cs" company="Os.Brain">Copyright (c) Os.Brain. All rights reserved.</copyright>
+// <author>Craze</author>
+// <datetime><% =DateTime.Now.ToString(@"yyyy\/MM\/dd HH:mm:ss")%></datetime>
+// <discription>
+// </discription>
+//----------------------------------------------------------------------------------------------------------------------------
+<%
+    // 主键
+    int IdentityID=0;
+    for(int i=0;i<SourceTable.Columns.Count;i++)
+    {
+        if(((bool)SourceTable.Columns[i].ExtendedProperties["CS_IsIdentity"].Value) == true)
+            IdentityID = i;
+    }
+    // 零时SQL语句
+    string tempSql=string.Empty;
+
+    string upSql=string.Empty;
+    string insertSql=string.Empty;
+    string insertSql1=string.Empty;
+%>
+
+<% if(TemplateModel.AutoCode==Template) %>
+<% { %>
+<% goto MODEL; %>
+<% } %>
+<% else if(TemplateModel.MODEL==Template) %>
+<% { %>
+<% goto MODEL; %>
+<% } %>
+<% else if(TemplateModel.IDAL==Template) %>
+<% { %>
+<% goto IDAL; %>
+<% } %>
+<% else if(TemplateModel.DAL==Template) %>
+<% { %>
+<% goto DAL; %>
+<% } %>
+<% else if(TemplateModel.BLL==Template) %>
+<% { %>
+<% goto BLL; %>
+<% } %>
+<% else if(TemplateModel.DalFactory==Template) %>
+<% { %>
+<% goto DalFactory; %>
+<% } %>
+<% else if(TemplateModel.SQLGet==Template) %>
+<% { %>
+<% goto SQLGet; %>
+<% } %>
+<% else if(TemplateModel.SQLSave==Template) %>
+<% { %>
+<% goto SQLSave; %>
+<% } %>
+<% else if(TemplateModel.Parameters==Template) %>
+<% { %>
+<% goto Parameters; %>
+<% } %>
+<% else if(TemplateModel.UserCode==Template) %>
+<% { %>
+<% goto UserCode; %>
+<% } %>
+
+#region MODEL
+<% MODEL: %>
+namespace <% =NameSpace %>.Entity
+{
+    using System;
+    using System.Data;
+    using System.Data.Common;
+    using System.Diagnostics;
+
+    using Microsoft.Practices.EnterpriseLibrary.Data;
+
+    using Os.Brain.Data;
+    using Os.Brain.Data.Entity;
+    <%if(DatabaseType==DatabaseTypeModel.MS_SQL) {%>
+    using Os.Brain.Data.MsSQL;
+    <%}else if(DatabaseType==DatabaseTypeModel.MY_SQL){ %>
+    using Os.Brain.Data.MySQL;
+    <%}else{%>
+    using Os.Brain.Data.Oracle;
+    <%} %>
+    /// <summary>
+    /// <% =SourceTable.Name %> 实体类
+    /// </summary>
+    public partial class <% =SourceTable.Name %>:BasicEntity
+    {
+        /// <summary>
+        /// conn 数据连接对象
+        /// </summary>
+        public static readonly string CONN = "conn";
+
+        #region Private Properties
+        <% foreach (ColumnSchema column in SourceTable.Columns) { %>
+
+        /// <summary>
+        /// <% =GetMemberVariableName(column)+" "+column.Description %>
+        /// </summary>
+        <%= GetMemberVariableDeclarationStatement(column) %>
+        <% } %>
+        #endregion
+
+        #region Public Properties
+        <% foreach (ColumnSchema column in SourceTable.Columns) { %>
+
+        /// <summary>
+        /// Gets or sets <% =GetPropertyName(column)+" "+column.Description %>
+        /// </summary>
+        public <%= GetCSharpVariableType(column) %> <%= GetPropertyName(column) %>
+        {
+            get {return this.<%= GetMemberVariableName(column) %>;}
+            set {this.<%= GetMemberVariableName(column) %> = value;}
+        }
+
+        <% } %>
+        #endregion
+
+        #region Public Method
+        /// <summary>
+        /// Insert 新增实体
+        /// </summary>
+        /// <returns>返回 IDENTITY</returns>
+        public override object Insert()
+        {
+            <%
+            tempSql=string.Empty;
+            for(int i=0;i<SourceTable.Columns.Count;i++)
+                if(i!=IdentityID)
+                    tempSql += "["+SourceTable.Columns[i].Name+"], ";
+            tempSql=tempSql.Trim(',',' ');
+            %>
+            #region DEBUG
+            Debug.WriteLine(string.Format(TSQL.DEBUG_START_LINE,"<% =NameSpace %>.Entity.Insert START"));
+            Debug.WriteLine(string.Format(TSQL.INSERT_VALUE_IDENTITY, "<% =GetTableName() %>", "<% =tempSql %>" , "<% =GetSqlParamarSplit()+tempSql.Replace(" "," "+GetSqlParamarSplit()).Replace("[","").Replace("]","") %>"));
+            Debug.WriteLine(this.ToString());
+            Debug.WriteLine(string.Format(TSQL.DEBUG_END_LINE,"<% =NameSpace %>.Entity.Insert END"));
+            #endregion
+
+            Database db = DatabaseFactory.CreateDatabase(CONN);
+            DbCommand dbc;
+
+            dbc = db.GetSqlStringCommand(string.Format(TSQL.INSERT_VALUE_IDENTITY, "<% =GetTableName() %>", "<% =tempSql %>" , "<% =GetSqlParamarSplit()+tempSql.Replace(" "," "+GetSqlParamarSplit()).Replace("[","").Replace("]","") %>"));
+
+            <% for(int i=0;i<SourceTable.Columns.Count;i++) %>
+            <% { %>
+                <% if(i!=IdentityID) %>
+                <% { %>
+            db.AddInParameter(dbc, "<% =GetSqlParamarSplit()+SourceTable.Columns[i].Name %>", DbType.<% =SourceTable.Columns[i].DataType %>, this.<% =SourceTable.Columns[i].Name %>);
+                <% } %>
+            <% } %>
+
+            return db.ExecuteScalar(dbc);
+        }
+
+        /// <summary>
+        /// Update 更新实体
+        /// </summary>
+        /// <returns>返回 IDENTITY</returns>
+        public override object Update()
+        {
+            <%
+            tempSql=string.Empty;
+            for(int i=0;i<SourceTable.Columns.Count;i++)
+                if(i!=IdentityID)
+                    tempSql += string.Format(" [{0}] = "+GetSqlParamarSplit()+"{0},",SourceTable.Columns[i].Name);
+            %>
+            #region DEBUG
+            Debug.WriteLine(string.Format(TSQL.DEBUG_START_LINE,"<% =NameSpace %>.Entity.Update START"));
+            Debug.WriteLine(string.Format(TSQL.UPDATE_MORE_FIELD_IDENTITY,"<% =GetTableName() %>","<% =tempSql.Trim(',',' ') %>","<% =SourceTable.Columns[IdentityID].Name %>"));
+            Debug.WriteLine(this.ToString());
+            Debug.WriteLine(string.Format(TSQL.DEBUG_END_LINE,"<% =NameSpace %>.Entity.Update END"));
+            #endregion
+
+            Database db = DatabaseFactory.CreateDatabase(CONN);
+            DbCommand dbc;
+
+            dbc = db.GetSqlStringCommand(string.Format(TSQL.UPDATE_MORE_FIELD_IDENTITY,"<% =GetTableName() %>","<% =tempSql.Trim(',',' ') %>","<% =SourceTable.Columns[IdentityID].Name %>"));
+
+            <% for(int i=0;i<SourceTable.Columns.Count;i++) %>
+            <% { %>
+            db.AddInParameter(dbc, "<% =GetSqlParamarSplit()+SourceTable.Columns[i].Name %>", DbType.<% =SourceTable.Columns[i].DataType %>, this.<% =SourceTable.Columns[i].Name %>);
+            <% } %>
+
+            return db.ExecuteScalar(dbc);
+        }
+
+        /// <summary>
+        /// Delete 删除实体
+        /// </summary>
+        /// <returns>返回 受影响行数</returns>
+        public override int Delete()
+        {
+            #region DEBUG
+            Debug.WriteLine(string.Format(TSQL.DEBUG_START_LINE,"<% =NameSpace %>.Entity.Delete START"));
+            Debug.WriteLine(string.Format(TSQL.DELETE_ITEM, "<% =GetTableName() %>", "[<% =SourceTable.Columns[IdentityID].Name %>]" ,"<% =GetSqlParamarSplit()+ SourceTable.Columns[IdentityID].Name %>"));
+            Debug.WriteLine(this.ToString());
+            Debug.WriteLine(string.Format(TSQL.DEBUG_END_LINE,"<% =NameSpace %>.Entity.Delete END"));
+            #endregion
+
+            Database db = DatabaseFactory.CreateDatabase(CONN);
+            DbCommand dbc;
+
+            dbc = db.GetSqlStringCommand(string.Format(TSQL.DELETE_ITEM, "<% =GetTableName() %>", "[<% =SourceTable.Columns[IdentityID].Name %>]" ,"<% =GetSqlParamarSplit()+SourceTable.Columns[IdentityID].Name %>"));
+
+            db.AddInParameter(dbc, "<% =GetSqlParamarSplit()+SourceTable.Columns[IdentityID].Name %>", DbType.<% =SourceTable.Columns[IdentityID].DataType %>, this.<% =SourceTable.Columns[IdentityID].Name %>);
+
+            return db.ExecuteNonQuery(dbc);
+        }
+        #endregion
+    }
+}
+<% if(TemplateModel.AutoCode==Template) %>
+<% { %>
+<% goto IDAL; %>
+<% } %>
+<% goto over; %>
+#endregion
+
+
+#region IDAL
+<% IDAL: %>
+namespace <% =NameSpace %>.Dal
+{
+    using Os.Brain.Data.Dal;
+
+    /// <summary>
+    /// <% =SourceTable.Name %> dal接口
+    /// </summary>
+    internal partial interface I<% =SourceTable.Name %> : IBasicDal<<% =NameSpace %>.Entity.<% =SourceTable.Name %>>
+    {
+        /// <summary>
+        /// Gets or sets Action 操作
+        /// </summary>
+        Os.Brain.Data.DataActions Action
+        {
+            get;
+            set;
+        }
+    }
+}
+<% if(TemplateModel.AutoCode==Template) %>
+<% { %>
+<% goto DAL; %>
+<% } %>
+<% goto over; %>
+#endregion
+#region DAL
+<% DAL: %>
+namespace <% =NameSpace %>.Dal
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Data.Common;
+    using System.Diagnostics;
+
+    using Microsoft.Practices.EnterpriseLibrary.Data;
+
+    using Os.Brain.Data;
+    <%if(DatabaseType==DatabaseTypeModel.MS_SQL) {%>
+    using Os.Brain.Data.MsSQL;
+    <%}else if(DatabaseType==DatabaseTypeModel.MY_SQL){ %>
+    using Os.Brain.Data.MySQL;
+    <%}else{%>
+    using Os.Brain.Data.Oracle;
+    <%} %>
+
+    /// <summary>
+    /// <% =SourceTable.Name %> dal数据处理层
+    /// </summary>
+    internal partial class <% =SourceTable.Name %>:I<% =SourceTable.Name %>
+    {
+        /// <summary>
+        /// 私有 数据操作行为
+        /// </summary>
+        private DataActions _action;
+
+        /// <summary>
+        /// Gets or sets Action 数据操作行为
+        /// </summary>
+        public DataActions Action
+        {
+            get { return this._action; }
+            set { this._action = value; }
+        }
+
+        /// <summary>
+        /// Edit 编辑（新增，修改）一条数据
+        /// </summary>
+        /// <param name="model">model 实体</param>
+        /// <returns>返回 实体主键</returns>
+		public object Edit(<% =NameSpace %>.Entity.<% =SourceTable.Name %> model)
+        {
+            if (DataActions.insert == this.Action)
+            {
+                return model.Insert();
+            }
+
+            if (DataActions.update == this.Action)
+            {
+                return model.Update();
+            }
+
+            if (DataActions.delete == this.Action)
+            {
+                return model.Delete();
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Delete 删除记录集
+        /// </summary>
+        /// <param name="ids">ids 编号集</param>
+        /// <returns>返回 受影响条数</returns>
+		public int Delete(string ids)
+        {
+            #region DEBUG
+            Debug.WriteLine(string.Format(TSQL.DEBUG_START_LINE,"<% =NameSpace %>.Dal.Delete START"));
+            Debug.WriteLine(string.Format(TSQL.DELETE_LIST,"<% =GetTableName() %>","[<% =SourceTable.Columns[IdentityID].Name %>]","<% =GetSqlParamarSplit()+ SourceTable.Columns[IdentityID].Name %>"));
+            Debug.WriteLine("<% =GetSqlParamarSplit()+ SourceTable.Columns[IdentityID].Name %>="+"," + ids.Trim(',') + ",");
+            Debug.WriteLine(string.Format(TSQL.DEBUG_END_LINE,"<% =NameSpace %>.Dal.Delete END"));
+            #endregion
+
+            if (DataActions.delete != this.Action)
+            {
+                return 0;
+            }
+
+            if (ids.Length <= 0)
+            {
+                return 0;
+            }
+
+            Database db = DatabaseFactory.CreateDatabase(<% =NameSpace %>.Entity.<% =SourceTable.Name %>.CONN);
+            DbCommand dbc= db.GetSqlStringCommand(string.Format(TSQL.DELETE_LIST,"<% =GetTableName() %>","[<% =SourceTable.Columns[IdentityID].Name %>]","<% =GetSqlParamarSplit()+SourceTable.Columns[IdentityID].Name %>"));
+
+            db.AddInParameter(dbc, "<% =GetSqlParamarSplit()+SourceTable.Columns[IdentityID].Name %>", DbType.String, "," + ids.Trim(',') + ",");
+
+            return db.ExecuteNonQuery(dbc);
+        }
+
+        /// <summary>
+        /// GetItem 获取单个实体
+        /// </summary>
+        /// <param name="ids">ids 主键值</param>
+        /// <returns>返回 空或实体</returns>
+		public <% =NameSpace %>.Entity.<% =SourceTable.Name %> GetItem(string ids)
+        {
+            #region DEBUG
+            Debug.WriteLine(string.Format(TSQL.DEBUG_START_LINE,"<% =NameSpace %>.Dal.GetItem START"));
+            Debug.WriteLine(string.Format(TSQL.SELECT_ITEM,"<% =GetTableName() %>","[<% =SourceTable.Columns[IdentityID].Name %>]","<% =GetSqlParamarSplit()+SourceTable.Columns[IdentityID].Name %>"));
+            Debug.WriteLine(string.Format(TSQL.DEBUG_END_LINE,"<% =NameSpace %>.Dal.GetItem END"));
+            #endregion
+
+            if (DataActions.select != this.Action)
+            {
+                return null;
+            }
+
+            <% =NameSpace %>.Entity.<% =SourceTable.Name %> _model = null;
+
+            Database db = DatabaseFactory.CreateDatabase(<% =NameSpace %>.Entity.<% =SourceTable.Name %>.CONN);
+            DbCommand dbc = db.GetSqlStringCommand(string.Format(TSQL.SELECT_ITEM,"<% =GetTableName() %>","[<% =SourceTable.Columns[IdentityID].Name %>]","<% =GetSqlParamarSplit()+SourceTable.Columns[IdentityID].Name %>"));
+
+            db.AddInParameter(dbc, "<% =GetSqlParamarSplit()+SourceTable.Columns[IdentityID].Name %>", DbType.<% =SourceTable.Columns[IdentityID].DataType %>, ids);
+
+            using (IDataReader dr = db.ExecuteReader(dbc))
+            {
+                if (dr.Read())
+                {
+                    _model = new <% =NameSpace %>.Entity.<% =SourceTable.Name %>();
+
+                    LoadFromReader(dr,_model);
+                }
+            }
+
+            return _model;
+        }
+
+        /// <summary>
+        /// GetList 获取数据集
+        /// </summary>
+        /// <param name="dataParams">dataParams 查询参数</param>
+        /// <returns>返回 数据集</returns>
+        public IList<<% =NameSpace %>.Entity.<% =SourceTable.Name %>> GetList(params DbParameter[] dataParams)
+        {
+            if (DataActions.select != this.Action)
+            {
+                return null;
+            }
+
+            IList<<% =NameSpace %>.Entity.<% =SourceTable.Name %>> returnList = new List<<% =NameSpace %>.Entity.<% =SourceTable.Name %>>();
+            <% =NameSpace %>.Entity.<% =SourceTable.Name %> _model = null;
+
+            Database db = DatabaseFactory.CreateDatabase(<% =NameSpace %>.Entity.<% =SourceTable.Name %>.CONN);
+            DbCommand dbc = db.GetStoredProcCommand("<% =SourceTable.Name %>_Get");
+
+            if (null != dataParams)
+            {
+                dbc.Parameters.AddRange(dataParams);
+            }
+
+            using (IDataReader dr = db.ExecuteReader(dbc))
+            {
+                while (dr.Read())
+                {
+                    _model = new <% =NameSpace %>.Entity.<% =SourceTable.Name %>();
+
+                    LoadFromReader(dr,_model);
+
+                    returnList.Add(_model);
+                }
+            }
+
+            return returnList;
+        }
+
+        /// <summary>
+        /// GetList 获取分页数据集
+        /// </summary>
+        /// <param name="pageSize">pageSize 每页条数</param>
+        /// <param name="currPage">currPage 当前页码</param>
+        /// <param name="recordCount">recordCount 总记录数</param>
+        /// <param name="dataParams">dataParams 查询参数</param>
+        /// <returns>返回 数据集</returns>
+        public IList<<% =NameSpace %>.Entity.<% =SourceTable.Name %>> GetList(int pageSize, int currPage, out int recordCount, params DbParameter[] dataParams)
+        {
+            recordCount=0;
+            if (DataActions.select != this.Action)
+            {
+                return null;
+            }
+
+            IList<<% =NameSpace %>.Entity.<% =SourceTable.Name %>> returnList = new List<<% =NameSpace %>.Entity.<% =SourceTable.Name %>>();
+            <% =NameSpace %>.Entity.<% =SourceTable.Name %> _model = null;
+
+            Database db = DatabaseFactory.CreateDatabase(<% =NameSpace %>.Entity.<% =SourceTable.Name %>.CONN);
+            DbCommand dbc = db.GetStoredProcCommand("<% =SourceTable.Name %>_Get");
+
+            if (null != dataParams)
+            {
+                dbc.Parameters.AddRange(dataParams);
+            }
+
+            db.AddInParameter(dbc, "<% =GetSqlParamarSplit()%>PageIndex", DbType.Int32, currPage);
+            db.AddInParameter(dbc, "<% =GetSqlParamarSplit()%>PageSize", DbType.Int32, pageSize);
+            db.AddOutParameter(dbc, "<% =GetSqlParamarSplit()%>RecordCount", DbType.Int32, 4);
+
+            using (IDataReader dr = db.ExecuteReader(dbc))
+            {
+                while (dr.Read())
+                {
+                    _model = new <% =NameSpace %>.Entity.<% =SourceTable.Name %>();
+
+                    LoadFromReader(dr,_model);
+
+                    returnList.Add(_model);
+                }
+            }
+
+            recordCount = (int)dbc.Parameters["<% =GetSqlParamarSplit()%>RecordCount"].Value;
+
+            return returnList;
+        }
+
+        /// <summary>
+        /// DataSet 获取数据集
+        /// </summary>
+        /// <param name="dataParams">dataParams 查询参数</param>
+        /// <returns>返回 数据集</returns>
+        public DataSet GetDataSet(params DbParameter[] dataParams)
+        {
+            if (DataActions.select != this.Action)
+            {
+                return null;
+            }
+
+            Database db = DatabaseFactory.CreateDatabase(<% =NameSpace %>.Entity.<% =SourceTable.Name %>.CONN);
+            DbCommand dbc = db.GetStoredProcCommand("<% =SourceTable.Name %>_Get");
+
+            if (null != dataParams)
+            {
+                dbc.Parameters.AddRange(dataParams);
+            }
+
+            return db.ExecuteDataSet(dbc);
+        }
+
+        /// <summary>
+        /// GetDataSet 获取分页数据集
+        /// </summary>
+        /// <param name="pageSize">pageSize 每页条数</param>
+        /// <param name="currPage">currPage 当前页码</param>
+        /// <param name="recordCount">recordCount 总记录数</param>
+        /// <param name="dataParams">dataParams 查询参数</param>
+        /// <returns>返回 数据集</returns>
+        public DataSet GetDataSet(int pageSize, int currPage, out int recordCount, params DbParameter[] dataParams)
+        {
+            recordCount=0;
+            if (DataActions.select != this.Action)
+            {
+                return null;
+            }
+
+            Database db = DatabaseFactory.CreateDatabase(<% =NameSpace %>.Entity.<% =SourceTable.Name %>.CONN);
+            DbCommand dbc = db.GetStoredProcCommand("<% =SourceTable.Name %>_Get");
+
+            if (null != dataParams)
+            {
+                dbc.Parameters.AddRange(dataParams);
+            }
+
+            db.AddInParameter(dbc, "<% =GetSqlParamarSplit()%>PageIndex", DbType.Int32, currPage);
+            db.AddInParameter(dbc, "<% =GetSqlParamarSplit()%>PageSize", DbType.Int32, pageSize);
+            db.AddOutParameter(dbc, "<% =GetSqlParamarSplit()%>RecordCount", DbType.Int32, 4);
+
+            var ds=db.ExecuteDataSet(dbc);
+
+            recordCount = (int)dbc.Parameters["<% =GetSqlParamarSplit()%>RecordCount"].Value;
+
+            return ds;
+        }
+
+        /// <summary>
+        /// GetDataSet 获取分页数据集
+        /// </summary>
+        /// <param name="pageSize">pageSize 每页条数</param>
+        /// <param name="currPage">currPage 当前页码</param>
+        /// <param name="recordCount">recordCount 总记录数</param>
+        /// <param name="dataParams">dataParams 查询参数</param>
+        /// <returns>返回 数据集</returns>
+        public DataSet GetDataSet(int pageSize, int currPage, out int recordCount,string strWhere, params DbParameter[] dataParams)
+        {
+            recordCount=0;
+            if (DataActions.select != this.Action)
+            {
+                return null;
+            }
+
+            proc_common_GetRecord pcg = new proc_common_GetRecord("<% =GetTableName() %>", "<% =SourceTable.PrimaryKey.MemberColumns[0].Name %>", "*", strWhere, string.Empty, pageSize, currPage);
+
+            Database db = DatabaseFactory.CreateDatabase(<% =NameSpace %>.Entity.<% =SourceTable.Name %>.CONN);
+            DbCommand dbc = db.GetSqlStringCommand(pcg.TSQL);
+
+            if (null != dataParams)
+            {
+                dbc.Parameters.AddRange(dataParams);
+            }
+
+            var ds=db.ExecuteDataSet(dbc);
+
+            recordCount = int.Parse(ds.Tables[0].Rows[0][0].ToString());
+
+            return ds;
+        }
+
+        protected void LoadFromReader(IDataReader dr,<% =NameSpace %>.Entity.<% =SourceTable.Name %> model)
+        {
+        	if (dr != null && !dr.IsClosed)
+        	{
+        		<% for (int i = 0; i < SourceTable.Columns.Count; i++) { %>
+        		<%= GetReaderAssignmentStatement(SourceTable.Columns[i], i) %>
+        		<% } %>
+        	}
+        }
+
+        protected void LoadFromReader1(IDataReader dr,<% =NameSpace %>.Entity.<% =SourceTable.Name %> model)
+        {
+        	if (dr != null && !dr.IsClosed)
+        	{
+        		<% for(int i=0;i<SourceTable.Columns.Count;i++) %>
+                <% { %>
+                <% =SetColumnValue(SourceTable.Columns[i]) %>
+                <% } %>
+        	}
+        }
+    }
+}
+<% if(TemplateModel.AutoCode==Template) %>
+<% { %>
+<% goto BLL; %>
+<% } %>
+<% goto over; %>
+#endregion
+#region BLL
+<% BLL: %>
+namespace <% =NameSpace %>.Bll
+{
+    using System.Collections.Generic;
+    using System.Data.Common;
+    using System.Data;
+    using System.Xml;
+
+    /// <summary>
+    /// <% =SourceTable.Name %> 业务逻辑层
+    /// </summary>
+    public partial class <% =SourceTable.Name %>
+    {
+        /// <summary>
+        /// dal 获取接口 I<% =SourceTable.Name %>
+        /// </summary>
+        private readonly <% =NameSpace %>.Dal.I<% =SourceTable.Name %> dal=DalFactory.Create<% =SourceTable.Name %>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="<% =SourceTable.Name %>"/> class.
+        /// </summary>
+        /// <param name="action">action 操作符</param>
+        public <% =SourceTable.Name %>(Os.Brain.Data.DataActions action)
+        {
+            this.dal.Action=action;
+        }
+
+        /// <summary>
+        /// Edit 编辑（新增，修改）一条数据
+        /// </summary>
+        /// <param name="model">model 实体</param>
+        /// <returns>returns 实体主键</returns>
+		public object Edit(<% =NameSpace %>.Entity.<% =SourceTable.Name %> model)
+        {
+            return this.dal.Edit(model);
+        }
+
+        /// <summary>
+        /// Delete 删除记录集
+        /// </summary>
+        /// <param name="ids">ids 编号集</param>
+        /// <returns>returns 受影响条数</returns>
+		public int Delete(string ids)
+        {
+            return this.dal.Delete(ids);
+        }
+
+        /// <summary>
+        /// Read 获取单个实体
+        /// </summary>
+        /// <param name="ids">ids 主键值</param>
+        /// <returns>returns 空或实体</returns>
+		public <% =NameSpace %>.Entity.<% =SourceTable.Name %> Read(string ids)
+        {
+            return this.dal.GetItem(ids);
+        }
+
+        /// <summary>
+        /// GetList 获取数据集
+        /// </summary>
+        /// <param name="dataParams">dataParams 查询参数</param>
+        /// <returns>returns 数据集</returns>
+		public IList<<% =NameSpace %>.Entity.<% =SourceTable.Name %>> GetList(DbParameter[] dataParams)
+        {
+            return this.dal.GetList(dataParams);
+        }
+
+        /// <summary>
+        /// GetList 获取分页数据集
+        /// </summary>
+        /// <param name="pageSize">pageSize 每页条数</param>
+        /// <param name="currPage">currPage 当前页码</param>
+        /// <param name="recordCount">recordCount 总记录数</param>
+        /// <param name="dataParams">dataParams 查询参数</param>
+        /// <returns>returns 数据集</returns>
+		public IList<<% =NameSpace %>.Entity.<% =SourceTable.Name %>> GetList(int pageSize, int currPage,out int recordCount, DbParameter[] dataParams)
+        {
+            return this.dal.GetList(pageSize, currPage,out recordCount,dataParams);
+        }
+
+        /// <summary>
+        /// GetDataSet 获取数据集
+        /// </summary>
+        /// <param name="dataParams">dataParams 查询参数</param>
+        /// <returns>returns 数据集</returns>
+		public DataSet GetDataSet(DbParameter[] dataParams)
+        {
+            return this.dal.GetDataSet(dataParams);
+        }
+
+        /// <summary>
+        /// GetDataSet 获取分页数据集
+        /// </summary>
+        /// <param name="pageSize">pageSize 每页条数</param>
+        /// <param name="currPage">currPage 当前页码</param>
+        /// <param name="recordCount">recordCount 总记录数</param>
+        /// <param name="dataParams">dataParams 查询参数</param>
+        /// <returns>returns 数据集</returns>
+		public DataSet GetDataSet(int pageSize, int currPage,out int recordCount, DbParameter[] dataParams)
+        {
+            return this.dal.GetDataSet(pageSize, currPage,out recordCount,dataParams);
+        }
+    }
+}
+<% if(TemplateModel.AutoCode==Template) %>
+<% { %>
+<% goto DalFactory; %>
+<% } %>
+<% goto over; %>
+#endregion
+#region DalFactory
+<% DalFactory: %>
+namespace <% =NameSpace %>
+{
+    /// <summary>
+    /// <% =SourceTable.Name %> 工厂
+    /// </summary>
+    internal sealed partial class DalFactory
+    {
+        /// <summary>
+        /// Create<% =SourceTable.Name %> 工厂构造器
+        /// </summary>
+        /// <returns>返回 实体</returns>
+        public static <% =NameSpace %>.Dal.I<% =SourceTable.Name %> Create<% =SourceTable.Name %>()
+        {
+            return new <% =NameSpace %>.Dal.<% =SourceTable.Name %>();
+        }
+    }
+}
+<% goto over; %>
+#endregion
+#region UserCode
+<% UserCode: %>
+namespace <% =NameSpace %>.Dal
+{
+    using Os.Brain.Data.Dal;
+
+    /// <summary>
+    /// <% =SourceTable.Name %> dal接口
+    /// </summary>
+    internal partial interface I<% =SourceTable.Name %> : IBasicDal<<% =NameSpace %>.Entity.<% =SourceTable.Name %>>
+    {
+        ///DataSet GetDataSet(int pageSize, int currPage, out int recordCount, params DbParameter[] dataParams);
+    }
+}
+
+namespace <% =NameSpace %>.Dal
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Data.Common;
+    using System.Diagnostics;
+
+    using Microsoft.Practices.EnterpriseLibrary.Data;
+
+    using Os.Brain.Data;
+    <%if(DatabaseType==DatabaseTypeModel.MS_SQL) {%>
+    using Os.Brain.Data.MsSQL;
+    <%}else if(DatabaseType==DatabaseTypeModel.MY_SQL){ %>
+    using Os.Brain.Data.MySQL;
+    <%}else{%>
+    using Os.Brain.Data.Oracle;
+    <%} %>
+
+    /// <summary>
+    /// <% =SourceTable.Name %> dal数据处理层
+    /// </summary>
+    internal partial class <% =SourceTable.Name %>:I<% =SourceTable.Name %>
+    {
+        ///public DataSet GetDataSet(int pageSize, int currPage, out int recordCount, params DbParameter[] dataParams)
+        ///{
+        ///    return null;
+        ///}
+    }
+}
+
+namespace <% =NameSpace %>.Bll
+{
+    using System.Collections.Generic;
+    using System.Data.Common;
+    using System.Data;
+    using System.Xml;
+
+    /// <summary>
+    /// <% =SourceTable.Name %> 业务逻辑层
+    /// </summary>
+    public partial class <% =SourceTable.Name %>
+    {
+		///public DataSet GetDataSet(DbParameter[] dataParams)
+        ///{
+        ///    return this.dal.GetDataSet(dataParams);
+        ///}
+    }
+}
+<% goto over; %>
+#endregion
+#region SQL
+<% SQLGet: %>
+
+CREATE PROCEDURE [<% =SourceTable.Owner %>].[<% =SourceTable.Name %>_Get]
+<%
+if(SearchColumns.Count>0)
+{
+    for(int i=0;i<SearchColumns.Count;i++)
+    {
+        Response.WriteLine(GetSqlParameterStatementWithDefaultValue(SourceTable.Columns[i])+",");
+        if(SearchColumns[i].DataType == DbType.DateTime)
+            Response.WriteLine(GetSqlParameterStatementWithDefaultValue(new ColumnSchema(new TableSchema(null,"","",DateTime.Now),SearchColumns[i].Name+"E",DbType.DateTime,"datetime",0,0,0,false))+",");
+    }
+}
+%>
+
+@PageIndex			INT = NULL,
+@PageSize			INT = NULL,
+@RecordCount		INT = NULL OUTPUT
+
+AS
+
+SET NOCOUNT ON
+
+DECLARE
+@QueryStr nvarchar(4000),		--表名、视图名、查询语句
+@FdName nvarchar(250),			--表中的主键或表、临时表中的标识列名
+@FdShow nvarchar (4000),		--要显示的字段列表,如果查询结果有标识字段,需要指定此值,且不包含标识字段
+@QueryWhere nvarchar(4000),		--查询条件
+@FdOrder nvarchar (1000)		--排序字段列表
+--@Inner	varchar(1000),
+--@FdShow1 nvarchar (4000)
+
+
+SELECT
+@QueryStr='<% =SourceTable.Name %>',
+@FdName=' <% =SourceTable.PrimaryKey.MemberColumns[0].Name %>',
+@FdShow=' <%
+    for(int i=0;i<SelectedColumns.Count;i++)
+	{
+        if(i!=SelectedColumns.Count-1)
+            Response.Write(SelectedColumns[i].Name + ", ");
+        else
+            Response.Write(SelectedColumns[i].Name + " ");
+    }
+
+    //Response.Write("1");
+%>',
+--@FdShow1=''
+@QueryWhere=' WHERE 1=1 ',
+@FdOrder=' <% =SourceTable.PrimaryKey.MemberColumns[0].Name %> DESC'
+--@Inner=''
+
+--set @QueryWhere=@Inner+@QueryWhere
+
+
+/*
+--列表查询
+IF @Evt_ID<>''
+    SET @QueryWhere=@QueryWhere+' AND Evt_ID = ''' + @Evt_ID + ''''
+*/
+
+<%
+if(SearchColumns.Count>0)
+{
+    for(int i=0;i<SearchColumns.Count;i++)
+    {
+        if(SearchColumns[i].DataType == DbType.DateTime)
+        {
+            Response.WriteLine("IF @" + SearchColumns[i].Name + "<>'' AND @" + SearchColumns[i].Name + "E<>''");
+            Response.WriteLine("    SET @QueryWhere=@QueryWhere+' AND " + SearchColumns[i].Name + " BETWEEN ''' + cast(@"+SearchColumns[i].Name+" as varchar) + ''' AND  '''+ cast(@"+SearchColumns[i].Name + "E as varchar) + ''''");
+        }
+        else
+        {
+            Response.WriteLine("IF @" + SearchColumns[i].Name + "<>''");
+            switch(SearchColumns[i].DataType)
+            {
+                case DbType.Int16:
+                case DbType.Int32:
+                case DbType.Int64:
+                case DbType.Boolean:
+                {
+                    Response.WriteLine("    SET @QueryWhere=@QueryWhere+' AND " + SearchColumns[i].Name + " = ' + cast(@"+SearchColumns[i].Name+" as varchar)");
+                    break;
+                }
+                default:
+                {
+                    Response.WriteLine("    SET @QueryWhere=@QueryWhere+' AND " + SearchColumns[i].Name + " = ''' + @"+SearchColumns[i].Name+" + ''''");
+                    break;
+                }                
+            }            
+        }
+    }
+}
+%>
+
+EXEC proc_common_GetRecord @QueryStr,@FdName,@FdShow,@QueryWhere,@FdOrder,@PageSize,@PageIndex,@RecordCount=@RecordCount output
+RETURN @@ROWCOUNT
+
+<% goto over; %>
+#endregion
+#region 修改插入存储过程
+<% SQLSave: %>
+
+CREATE PROCEDURE [<% =SourceTable.Owner %>].[<% =SourceTable.Name %>_Save]
+(
+	<%
+		for(int i=0;i<SourceTable.Columns.Count;i++)
+		{
+
+            Response.Write(GetSqlParameterStatement(SourceTable.Columns[i]));
+			if(i<SourceTable.Columns.Count-1)
+				Response.WriteLine(",");
+		}
+	%>
+)
+AS
+
+SET NOCOUNT ON
+
+IF @<% =SourceTable.PrimaryKey.MemberColumns[0].Name %>=0
+    GOTO lbe_insert
+ELSE
+    GOTO lbe_update
+
+lbe_insert:
+INSERT <% =SourceTable.Name %>( <%
+	for(int i=0;i<SourceTable.NonPrimaryKeyColumns.Count;i++)
+	{
+		Response.Write(SourceTable.NonPrimaryKeyColumns[i].Name);
+		if(i<SourceTable.NonPrimaryKeyColumns.Count-1)
+			Response.Write(",");
+	}
+
+%>)
+	SELECT <%
+	for(int i=0;i<SourceTable.NonPrimaryKeyColumns.Count;i++)
+	{
+		Response.Write("@"+SourceTable.NonPrimaryKeyColumns[i].Name);
+		if(i<SourceTable.NonPrimaryKeyColumns.Count-1)
+			Response.Write(",");
+	}
+%>
+SELECT @<% =SourceTable.PrimaryKey.MemberColumns[0].Name %>=@@IDENTITY
+RETURN @<% =SourceTable.PrimaryKey.MemberColumns[0].Name %>
+
+lbe_update:
+UPDATE <% =SourceTable.Name %> SET <%
+	for(int i=0;i<SourceTable.NonPrimaryKeyColumns.Count;i++)
+	{
+		Response.Write(SourceTable.NonPrimaryKeyColumns[i].Name + "=@" + SourceTable.NonPrimaryKeyColumns[i].Name);
+		if(i<SourceTable.NonPrimaryKeyColumns.Count-1)
+			Response.Write(",");
+	}
+%>
+	WHERE <% =SourceTable.PrimaryKey.MemberColumns[0].Name %>=@<% =SourceTable.PrimaryKey.MemberColumns[0].Name %>
+RETURN @<% =SourceTable.PrimaryKey.MemberColumns[0].Name %>
+
+<% goto over; %>
+#endregion
+
+#region 分页参数
+<% Parameters: %>
+<%
+if(SearchColumns.Count>0)
+{
+    Response.WriteLine("        SqlParameter[] p = new SqlParameter[] { ");
+    for(int i=0;i<SearchColumns.Count;i++)
+    {
+            Response.WriteLine("            new SqlParameter(\"@" + SearchColumns[i].Name + "\", txtS"+SearchColumns[i].Name+".Text),");
+            if(SearchColumns[i].DataType == DbType.DateTime)
+                Response.WriteLine("            new SqlParameter(\"@" + SearchColumns[i].Name + "E\", txtS"+SearchColumns[i].Name+"E.Text),");
+    }
+    Response.WriteLine("        }; ");
+}
+%>
+<% goto over; %>
+#endregion
+
+<% over: %>
+
+
+
+
+
+<script runat="template">
+
+public enum TemplateModel{
+    AutoCode,
+    UserCode,
+    MODEL,
+    IDAL,
+    DAL,
+    DalFactory,
+    BLL,
+    SQLGet,
+    SQLSave,
+    Parameters
+}
+
+
+public enum DatabaseTypeModel{
+    MS_SQL,
+    MY_SQL,
+    Oracle
+}
+
+public string GetSqlParamarSplit()
+{
+
+        if(DatabaseType==DatabaseTypeModel.MS_SQL)
+        return "@";
+    else if(DatabaseType==DatabaseTypeModel.MY_SQL)
+        return "?";
+    else
+        return ":";
+
+}
+
+public string GetTableOwner()
+{
+    if (SourceTable.Owner.Length > 0)
+        return string.Format("[{0}].",SourceTable.Owner);
+    else
+        return string.Empty;
+}
+
+public string GetTableName()
+{
+    return string.Format("[{0}].[{1}]",SourceTable.Owner,SourceTable.Name);
+}
+
+public string GetMemberVariableDeclarationStatement(ColumnSchema column)
+{
+	return GetMemberVariableDeclarationStatement("private", column);
+}
+
+public string GetMemberVariableDeclarationStatement(string protectionLevel, ColumnSchema column)
+{
+
+	string statement = protectionLevel + " ";
+	statement += GetCSharpVariableType(column) + " " + GetMemberVariableName(column);
+
+	string defaultValue = GetMemberVariableDefaultValue(column);
+	if (defaultValue != "")
+	{
+		statement += " = " + defaultValue;
+	}
+
+	statement += ";";
+
+	return statement;
+}
+
+public string GetReaderAssignmentStatement(ColumnSchema column, int index)
+{
+	string statement = "if (!dr.IsDBNull(" + index.ToString() + ")) ";
+	statement += "model."+GetPropertyName(column) + " = ";
+
+	if (column.Name.EndsWith("TypeCode")) statement += "(" + column.Name + ")";
+
+	statement += "dr." + GetReaderMethod(column) + "(" + index.ToString() + ");";
+
+	return statement;
+}
+
+public string GetCamelCaseName(string value)
+{
+	return value.Substring(0, 1).ToLower() + value.Substring(1);
+}
+
+public string GetMemberVariableName(ColumnSchema column)
+{
+	string propertyName = GetPropertyName(column);
+	string memberVariableName = "_" + GetCamelCaseName(propertyName);
+
+	return memberVariableName;
+}
+
+public string GetPropertyName(ColumnSchema column)
+{
+	string propertyName = column.Name;
+
+	if (propertyName == column.Table.Name + "Name") return "Name";
+	if (propertyName == column.Table.Name + "Description") return "Description";
+
+	if (propertyName.EndsWith("TypeCode")) propertyName = propertyName.Substring(0, propertyName.Length - 4);
+
+	return propertyName;
+}
+
+public string GetMemberVariableDefaultValue(ColumnSchema column)
+{
+    //if(null!=column.ExtendedProperties["CS_Default"]&&!string.IsNullOrEmpty(column.ExtendedProperties["CS_Default"].Value.ToString()))
+    //{
+        switch (column.DataType)
+    	{
+    		case DbType.Guid:
+    		{
+    			return "Guid.Empty";
+    		}
+    		case DbType.AnsiString:
+    		case DbType.AnsiStringFixedLength:
+    		case DbType.String:
+    		case DbType.StringFixedLength:
+    		{
+                if(null!=column.ExtendedProperties["CS_Default"]&&!string.IsNullOrEmpty(column.ExtendedProperties["CS_Default"].Value.ToString()))
+                {
+                    if (column.ExtendedProperties["CS_Default"].Value.ToString().Trim().StartsWith("N'"))
+                        return column.ExtendedProperties["CS_Default"].Value.ToString().Trim().Remove(0, 1).Replace("'", "\"");
+                    else
+                        return column.ExtendedProperties["CS_Default"].Value.ToString().Trim(new char[]{'(',')'}).Replace("'", "\"");
+                }
+                else
+                {
+    			    return "string.Empty";
+                }
+    		}
+            case DbType.Date:
+            case DbType.DateTime:
+            case DbType.DateTime2:
+            case DbType.DateTimeOffset:
+            case DbType.Time:
+            {
+                if(null!=column.ExtendedProperties["CS_Default"]&&!string.IsNullOrEmpty(column.ExtendedProperties["CS_Default"].Value.ToString()))
+                {
+                    if (column.ExtendedProperties["CS_Default"].Value.ToString() == "getdate"||
+                        column.ExtendedProperties["CS_Default"].Value.ToString() == "(getdate())"||
+                        column.ExtendedProperties["CS_Default"].Value.ToString() == "Now()"||
+                        column.ExtendedProperties["CS_Default"].Value.ToString() == "Now"||
+                        column.ExtendedProperties["CS_Default"].Value.ToString() == "CURRENT_TIME" ||
+                        column.ExtendedProperties["CS_Default"].Value.ToString() == "CURRENT_DATE"
+                        )
+                        return " DateTime.Now";
+                    else
+                        return " Convert.ToDateTime(" + column.ExtendedProperties["CS_Default"].Value.ToString().Trim().Replace("'", "\"") + ")";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            case DbType.Byte:
+            case DbType.SByte:
+            case DbType.Int16:
+            case DbType.Int32:
+            case DbType.Int64:
+            case DbType.UInt16:
+            case DbType.UInt32:
+            case DbType.UInt64:
+            {
+                if(null!=column.ExtendedProperties["CS_Default"]&&!string.IsNullOrEmpty(column.ExtendedProperties["CS_Default"].Value.ToString()))
+                {
+                    return column.ExtendedProperties["CS_Default"].Value.ToString().Trim('(',')');
+                }
+                else
+                {
+                    return "";
+                }
+
+            }
+            case DbType.Boolean:
+            {
+                if(null!=column.ExtendedProperties["CS_Default"]&&!string.IsNullOrEmpty(column.ExtendedProperties["CS_Default"].Value.ToString()))
+                {
+                    string val=column.ExtendedProperties["CS_Default"].Value.ToString().Trim().Replace("'", "").ToLower();
+                    if(val=="1"||val=="true")
+                        return"true" ;
+                    else
+                        return "false";
+                    }
+                else
+                {
+                    return "";
+                }
+            }
+            case DbType.Double:
+            case DbType.Single:
+            {
+                if(null!=column.ExtendedProperties["CS_Default"]&&!string.IsNullOrEmpty(column.ExtendedProperties["CS_Default"].Value.ToString()))
+                {
+                    return column.ExtendedProperties["CS_Default"].Value.ToString().Trim('(', ')').ToLower();
+                }
+                else
+                {
+                    return "";
+                }
+
+            }
+            case DbType.Decimal:
+            case DbType.Currency:
+            {
+                if(null!=column.ExtendedProperties["CS_Default"]&&!string.IsNullOrEmpty(column.ExtendedProperties["CS_Default"].Value.ToString()))
+                {
+                    return column.ExtendedProperties["CS_Default"].Value.ToString().Trim('(', ')').ToLower() + "M";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+    		default:
+    		{
+    			return "";
+    		}
+    	}
+    //}
+
+    //return "";
+
+}
+
+public string GetCSharpVariableType(ColumnSchema column)
+{
+
+    string temp=string.Empty;
+    if(column.SystemType.Name.ToLower()!="string" &&column.SystemType.Name.ToLower()!="byte[]"&&column.SystemType.Name.ToLower()!="object")
+        temp=column.AllowDBNull?"?":string.Empty;
+
+
+	if (column.Name.EndsWith("TypeCode")) return column.Name+temp;
+
+	return DbTypeCSharp[column.DataType.ToString()]+temp;
+}
+
+public string GetReaderMethod(ColumnSchema column)
+{
+	return DbDataReader[column.DataType.ToString()];
+}
+
+public string GetClassName(TableSchema table)
+{
+	//if (table.Name.EndsWith("s"))
+	//{
+	//	return table.Name.Substring(0, table.Name.Length - 1);
+	//}
+	//else
+	//{
+		return table.Name;
+	//}
+}
+
+public string GetSqlDbType(ColumnSchema column)
+{
+	return SqlNativeSqlDb[column.NativeType.ToString()];
+}
+
+public string GetPrimaryKeyType(TableSchema table)
+{
+	if (table.PrimaryKey != null)
+	{
+		if (table.PrimaryKey.MemberColumns.Count == 1)
+		{
+			return GetCSharpVariableType(table.PrimaryKey.MemberColumns[0]);
+		}
+		else
+		{
+			throw new ApplicationException("This template will not work on primary keys with more than one member column.");
+		}
+	}
+	else
+	{
+		throw new ApplicationException("This template will only work on tables with a primary key.");
+	}
+}
+
+public override string GetFileName()
+{
+	return this.GetClassName(this.SourceTable) + ".cs";
+}
+
+public string SetColumnValue(SchemaExplorer.ColumnSchema column)
+{
+    string temp=string.Empty;
+    if(column.SystemType.Name.ToLower()!="string" &&column.SystemType.Name.ToLower()!="byte[]"&&column.SystemType.Name.ToLower()!="object" && column.AllowDBNull)
+    {
+        temp="if (DBNull.Value != dr[\""+column.Name+"\"])\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\t";
+    }
+
+    temp+="model."+column.Name +" = "+GetConvert(column)+";";
+
+    if(column.SystemType.Name.ToLower()!="string" &&column.SystemType.Name.ToLower()!="byte[]"&&column.SystemType.Name.ToLower()!="object" && column.AllowDBNull)
+    {
+        temp+="\r\n\t\t\t\t\t}\r";
+    }
+
+    return temp;
+}
+
+public string GetConvert(ColumnSchema column)
+{
+    if (column.Name.EndsWith("TypeCode")) return column.Name;
+
+    switch (column.DataType)
+    {
+        case DbType.AnsiString:
+        case DbType.AnsiStringFixedLength:
+        case DbType.Guid:
+        case DbType.Object:
+        case DbType.String:
+        case DbType.StringFixedLength: return "dr[\""+column.Name+"\"].ToString()";
+
+        case DbType.Byte: return "(byte)dr[\""+column.Name+"\"]";
+        case DbType.Int32:
+        case DbType.UInt32:	return "(int)dr[\""+column.Name+"\"]";
+        case DbType.Single:	return "(float)dr[\""+column.Name+"\"]";
+        case DbType.Int16:	return "(short)dr[\""+column.Name+"\"]";
+        case DbType.Int64:	return "(long)dr[\""+column.Name+"\"]";
+
+        case DbType.Double:	return "(double)dr[\""+column.Name+"\"]";;
+
+        case DbType.Currency:
+        case DbType.Decimal:
+        case DbType.VarNumeric: return "(decimal)dr[\""+column.Name+"\"]";
+
+
+        case DbType.Date:
+        case DbType.DateTime:
+        case DbType.DateTime2:
+        case DbType.Time: return "(DateTime)dr[\""+column.Name+"\"]";
+
+        case DbType.DateTimeOffset: return "(DateTimeOffset)dr[\""+column.Name+"\"]";
+
+        case DbType.Binary: return "System.DBNull.Value == dr[\""+column.Name+"\"] ? null : (byte[])dr[\""+column.Name+"\"];";
+        case DbType.Boolean: return "(bool)dr[\""+column.Name+"\"]";
+
+
+
+
+
+
+        default:
+        {
+            return "__UNKNOWN__" + column.DataType;
+        }
+    }
+}
+
+public string GetSqlParameterStatement(ColumnSchema column)
+{
+    string param = "\t@" + column.Name + " " + column.NativeType;
+    switch (column.DataType)
+      {
+            case DbType.Decimal:
+            {
+                  param += "(" + column.Precision + ", " + column.Scale + ")";
+                  break;
+            }
+			case DbType.String:
+			case DbType.AnsiString:
+			{
+				if(column.NativeType!="text")
+				{
+					if(column.Size != -1)
+						param += "(" + column.Size + ")";
+					else
+						param += "(max)";
+				}
+                break;
+			}
+            default:
+            {
+                  if (column.Size > 0)
+                  {
+                     //param += "(" + column.Size + ")";
+                  }
+                  break;
+            }
+      }
+
+      return param;
+}
+
+public string GetSqlParameterStatementWithDefaultValue(ColumnSchema column)
+{
+
+    string param = "@" + column.Name + GetTab(column.Name,5) + column.NativeType;
+    switch (column.DataType)
+      {
+            case DbType.Decimal:
+            {
+                  param += "(" + column.Precision + ", " + column.Scale + ")";
+                  break;
+            }
+			case DbType.String:
+			case DbType.AnsiString:
+			{
+				if(column.NativeType!="text")
+				{
+					if(column.Size != -1)
+						param += "(" + column.Size + ")";
+					else
+						param += "(max)";
+				}
+                break;
+			}
+            default:
+            {
+                  if (column.Size > 0)
+                  {
+                     //param += "(" + column.Size + ")";
+                  }
+                  break;
+            }
+      }
+
+      return param+" = NULL";
+}
+
+public string GetDefaultValue(SchemaExplorer.ColumnSchema column){
+    if(null!=column.ExtendedProperties["CS_Default"]&&!string.IsNullOrEmpty(column.ExtendedProperties["CS_Default"].Value.ToString()))
+    {
+        //Response.WriteLine(column.SystemType.Name.ToLower());
+        switch(column.SystemType.Name.ToLower())
+        {
+            case "int32":
+            case "int":
+            case "long":
+                return "=" + column.ExtendedProperties["CS_Default"].Value.ToString().Trim('(',')');
+
+            case "boolean":
+            case "bool":
+            case "real":
+            case "bit":{
+                string val=column.ExtendedProperties["CS_Default"].Value.ToString().Trim().Replace("'", "").ToLower();
+                if(val=="1"||val=="true")
+                    return"= true" ;
+                else
+                    return "= false";
+            }
+            case "nchar":
+            case "ntext":
+            case "nvarchar":
+            case "char":
+            case "text":
+            case "varchar":
+            case "string":
+            if (column.ExtendedProperties["CS_Default"].Value.ToString().Trim().StartsWith("N'"))
+                return "=" + column.ExtendedProperties["CS_Default"].Value.ToString().Trim().Remove(0, 1).Replace("'", "\"");
+            else
+                return "=" + column.ExtendedProperties["CS_Default"].Value.ToString().Trim(new char[]{'(',')'}).Replace("'", "\"");
+            case "datetime":
+            if (column.ExtendedProperties["CS_Default"].Value.ToString() == "getdate"||
+                column.ExtendedProperties["CS_Default"].Value.ToString() == "(getdate())"||
+                column.ExtendedProperties["CS_Default"].Value.ToString() == "Now()"||
+                column.ExtendedProperties["CS_Default"].Value.ToString() == "Now"||
+                column.ExtendedProperties["CS_Default"].Value.ToString() == "CURRENT_TIME" ||
+                column.ExtendedProperties["CS_Default"].Value.ToString() == "CURRENT_DATE"
+                )
+                return "= DateTime.Now";
+            else
+                return "= Convert.ToDateTime(" + column.ExtendedProperties["CS_Default"].Value.ToString().Trim().Replace("'", "\"") + ")";
+
+            case "decimal":
+            case "double":
+            case "float":
+                    return "=" + column.ExtendedProperties["CS_Default"].Value.ToString().Replace("'", "").ToLower() + "M";
+           default:
+                    return string.Empty;
+
+        }
+    }
+
+    return string.Empty;
+     /*
+    Response.WriteLine(column.SystemType);
+    return  "";
+    //string result="";
+    */
+}
+
+public string GetTab(string name,int maxTab){
+	var tab="00000000000000000000000000000000000000000";
+	int len=(name.Length+1)/4;
+	tab=tab.Substring(0,maxTab-len);
+	return tab.Replace("0","\t");
+}
+
+</script>

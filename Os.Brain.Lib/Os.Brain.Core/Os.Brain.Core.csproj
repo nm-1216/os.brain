@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F6694F3A-BC35-422E-BADD-7087A97A586F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Os.Brain.Core</RootNamespace>
+    <AssemblyName>Os.Brain.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>MixedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>Os.Brain.Core.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\Algorithms\BinaryTree.cs" />
+    <Compile Include="Common\Algorithms\InfixExpression.cs" />
+    <Compile Include="Common\Algorithms\MD5.cs" />
+    <Compile Include="Common\Algorithms\Sorting.cs" />
+    <Compile Include="Common\Algorithms\Swap.cs" />
+    <Compile Include="Common\Check.cs" />
+    <Compile Include="Common\Converts.cs" />
+    <Compile Include="Common\Debug.cs" />
+    <Compile Include="Common\Encrypts.cs" />
+    <Compile Include="Common\Extended\String.cs" />
+    <Compile Include="Common\File\FileType.cs" />
+    <Compile Include="Common\File\FileUpload.cs" />
+    <Compile Include="Common\File\Mimes.cs" />
+    <Compile Include="Common\IP.cs" />
+    <Compile Include="Common\RegExp.cs" />
+    <Compile Include="Common\Rnd.cs" />
+    <Compile Include="Common\TimeParser.cs" />
+    <Compile Include="Common\Utils.cs" />
+    <Compile Include="Common\Xml\BasicSerialize.cs" />
+    <Compile Include="Common\Xml\SerializationHelper.cs" />
+    <Compile Include="Data\Dal\IBasicDal.cs" />
+    <Compile Include="Data\DataActions.cs" />
+    <Compile Include="Data\DBHelper.cs" />
+    <Compile Include="Data\Entity\BasicEntity.cs" />
+    <Compile Include="Data\Methods.cs" />
+    <Compile Include="Data\MsSQL\proc_common_GetRecord.cs" />
+    <Compile Include="Data\MsSQL\TSQL.cs" />
+    <Compile Include="Data\MySQL\TSQL.cs" />
+    <Compile Include="Data\PageList.cs" />
+    <Compile Include="GB\Sex.cs" />
+    <Compile Include="Net\Client.cs" />
+    <Compile Include="Net\Email.cs" />
+    <Compile Include="Net\FTP.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Net\Listener.cs" />
+    <Compile Include="Net\Transpond.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Net\UrlRequest.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Resx\Regexs.Designer.cs" />
+    <Compile Include="Web\Auth.cs" />
+    <Compile Include="Web\HttpHanders\AuthCodeHttpHander.cs" />
+    <Compile Include="Web\HttpHanders\AuthCodeHttpHander2.cs" />
+    <Compile Include="Web\HttpHanders\LogoutHttpHander.cs" />
+    <Compile Include="Web\HttpModules\AnalyticsFilter.cs" />
+    <Compile Include="Web\HttpModules\Exception\ExceptionModule.cs" />
+    <Compile Include="Web\HttpModules\IPFilterModule.cs" />
+    <Compile Include="Web\HttpModules\LicenseModule.cs" />
+    <Compile Include="Web\Instrumentation\AppLog.cs" />
+    <Compile Include="Web\Instrumentation\AppLogger.cs" />
+    <Compile Include="Web\MsgBox.cs" />
+    <Compile Include="Web\ui\Probe.cs" />
+    <Compile Include="Web\UserControl\AspNetPager.cs" />
+    <Compile Include="Web\UserControl\AuthCode.cs" />
+    <Compile Include="Web\UserControl\Calendar.cs" />
+    <Compile Include="Web\UserControl\NumberBox.cs" />
+    <Compile Include="Web\UserControl\StringBox.cs" />
+    <Compile Include="Web\UserControl\TextBox.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resx\Regexs.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\DLL\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\DLL\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

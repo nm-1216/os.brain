@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>左侧导航 - 梦工厂 管理平台</title>
+    <link type="text/css" rel="Stylesheet" href="../css/Global.css" />
+    <style type="text/css">
+        body{background:#EEF2FB}
+        body>ul{margin:0 auto}
+        .btn-top{width:181px;background:url(../image/left-btn-bj.gif) -3px -5px no-repeat;font-size:14px;font-weight:bold;padding:6px 0 1px 0;*padding:8px 0 0 0;cursor:pointer;}
+        .btn-bottom{height:12px;width:181px;background:url(../image/left-btn-bj.gif) -3px -30px no-repeat;font-size:1px;line-height:1px}
+        ul{margin:0;padding:0;width:179px;border-left:1px solid #90a2ae;border-right:1px solid #90a2ae;display:none}
+        li{background:url(../image/menu_bg1.gif) 0px 0px no-repeat;height:18px;padding:6px 0 2px 0;*padding:8px 0 0 0;cursor:pointer;text-align:left;text-indent:40px}
+    </style>
+    <script type="text/javascript">
+        function menu_open(obj) {
+            var id = obj.id;
+            var u = document.getElementById(id.replace('_d', '_u'))
+            if (u.style.display == 'none' || u.style.display == '' || u.style.display == null)
+                u.style.display = 'block'
+            else
+                u.style.display = 'none'
+        }
+    </script>
+</head>
+<body>
+    <div class="btn-top" id="menu_d1" onclick="menu_open(this)">
+        系统管理</div>
+    <ul id="menu_u1">
+
+        <li><a target="main" href="../sys/addadmins.aspx">添加管理员</a></li>
+        <li><a target="main" href="../sys/editPwd.aspx">修改登陆密码</a></li>
+    </ul>
+    <div class="btn-bottom">
+    </div>
+    <div class="btn-top" id="menu_d2" onclick="menu_open(this)">
+        用户管理</div>
+    <ul id="menu_u2">
+        <li><a target="main" href="../news/edit.aspx">用户列表</a></li>
+    </ul>
+    <div class="btn-bottom">
+    </div>
+    <div class="btn-top" id="menu_d3" onclick="menu_open(this)">
+        新闻管理</div>
+    <ul id="menu_u3">
+        <li><a target="main" href="../news/edit.aspx">内容列表</a></li>
+        <li><a target="main" href="../news/sort.aspx">分类管理</a></li>
+    </ul>
+    <div class="btn-bottom">
+    </div>
+    <div class="btn-top" id="menu_d4" onclick="menu_open(this)">
+        财务管理</div>
+    <ul id="menu_u4">
+        <li><a target="main" href="../news/edit.aspx">充值管理</a></li>
+        <li><a target="main" href="../news/list.aspx">提现管理</a></li>
+    </ul>
+    <div class="btn-bottom">
+    </div>
+</body>
+</html>

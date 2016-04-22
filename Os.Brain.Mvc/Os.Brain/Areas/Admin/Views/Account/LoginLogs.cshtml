@@ -1,0 +1,83 @@
+﻿@{
+    Layout = null;
+}
+
+@model Os.Brain.Mvc.Pager.PageList<LoginLog<string>>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@string.Format("{0} - {1}", ViewData["Title"], "权限管理系统(Os.Brain)").Trim(' ', '-')</title>
+
+    <link href="~/css/model.css" rel="stylesheet" />
+    <style type="text/css">
+        .tab-list td {
+            text-align: center;
+        }
+
+        .os-fw-bd {
+            padding: 0;
+        }
+
+        .t0 {
+            width: 120px;
+        }
+
+        .t1 {
+            width: 120px;
+        }
+
+        table.tab-list {
+            border: 0 !important;
+        }
+
+            table.tab-list td,
+            table.tab-list th {
+                border: 0 !important;
+            }
+    </style>
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+    </environment>
+    <script type="text/javascript">
+        function AspNetPager(page) {
+            $('#Page').val(page);
+            $('#mainForm').submit()
+        }
+    </script>
+</head>
+<body>
+    <form asp-action="Index" id="mainForm">
+        <input type="hidden" name="Page" id="Page" value="ViewBag.Page" />
+        <div id="tabs-1" class="os-fw-bd">
+            <table class="tab-list">
+                <tr>
+                    <th class="t0">时间</th>
+                    <th class="t1">IP</th>
+                    <th>描述</th>
+                </tr>
+
+                @foreach (var item in Model)
+            {
+            <tr class="tr@(Model.ToList().IndexOf(item) % 2 + 1)">
+                <td class="t0">@item.AddTime.ToString("yyyy-MM-dd HH:mm")</td>
+                <td class="t1">@item.IP</td>
+                <td>@item.Description</td>
+            </tr>
+                }
+            </table>
+
+
+
+            @Html.Raw(Os.Brain.Mvc.Pager.Pager.Pager1(Context.Request.Path.Value, Model.CurrPage, Model.PageSize, Model.PageCount, Model.RecordCount))
+
+        </div>
+    </form>
+</body>
+</html>

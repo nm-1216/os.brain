@@ -1,0 +1,134 @@
+﻿@{
+    Layout = null;
+}
+@inject IOptions<AppSettings> AppSettings
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@string.Format("{0} - {1}", ViewData["Title"], AppSettings.Value.SiteTitle).Trim(' ', '-')</title>
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
+        <link href="~/css/model.css" rel="stylesheet" />
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+
+        <link href="~/css/model.css" rel="stylesheet" />
+    </environment>
+
+
+    <!-- 样式文件区域 开始 -->
+    @RenderSection("CssFileBlock", false)
+    <!-- 样式文件区域 结束 -->
+    <!-- 脚本文件区域 开始 -->
+    @RenderSection("JsFileBlock", false)
+    <!-- 脚本文件区域 结束 -->
+    <!-- 样式区域 开始 -->
+    <style type="text/css">
+    body,html{overflow-x:hidden}
+    @RenderSection("CssBlock", false)
+    </style>
+    <!-- 样式区域 结束 -->
+    <!-- 脚本区域 开始 -->
+    <script type="text/javascript">
+        @RenderSection("JsBlock", false)
+    </script>
+    <!-- 脚本区域 结束 -->
+    <!-- 自动运行脚本区域 开始 -->
+    <script type="text/javascript">
+        $(function () {
+            $('.os-fw-top .t4 li').hover(
+                function () { $(this).addClass('on') },
+                function () { $(this).removeClass('on') }
+            )
+            $('.os-fw-bd .tabs li').click(
+                function () {
+                    $('.os-fw-bd .tabs li').removeClass('on')
+                    $(this).addClass('on')
+
+                    $('.tabs-con-box').hide()
+                    $($(this).attr('data-val') + '').show()
+                }
+            )
+
+            @RenderSection("AutoJsBlock", false)
+        })
+        function AspNetPager(page) {
+            $('#Page').val(page);
+            $('#mainForm').submit()
+        }
+
+        function moveUpDown(type, obj) {
+            if (null == $(obj).val()) {
+                alert('请选择一项');
+                return false;
+            }
+            //选中的索引,从0开始 
+            var optionLength = $(obj)[0].options.length;
+            var optionIndex = $(obj).get(0).selectedIndex;
+            //如果选中的不在最上面,表示可以移动 
+
+            if (type=='UP' && optionIndex > 0) {
+                $(obj + ' option:selected').insertBefore($(obj + ' option:selected').prev('option'));
+                $('.listValue').val(getSelectedOption(obj));
+            }
+
+            if (type=='DOWN' && optionIndex < (optionLength - 1)) {
+                $(obj + ' option:selected').insertAfter($(obj + ' option:selected').next('option'));
+                $('.listValue').val(getSelectedOption(obj));
+                
+            }
+        }
+
+        function getSelectedOption(obj) {
+            var ids = '';
+            var options = $(obj)[0].options;
+            for (var i = 0; i < options.length; i++) {
+                ids = ids + ',' + options[i].value;
+            }
+            return ids;
+        }
+    </script>
+    <!-- 自动运行脚本区域 结束 -->
+</head>
+<body>
+    <div class="os-fw-top">
+        <table>
+            <tr class="tr1">
+                <td class="t1"><img src="@ViewBag.ICO" />@ViewBag.TITLE</td>
+                <td class="t2"><img src="~/Images/Fw/Help.gif" />@ViewBag.HELP？</td>
+            </tr>
+            <tr class="tr2">
+                <td class="t3">目前操作功能：@ViewBag.DO</td>
+                <td class="t4">
+                    <ul class="btn">
+                        @RenderSection("Btn", false)
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="os-fw-bd">
+        <ul class="tabs clearfix">
+            <li data-val="#tabs-1" class="on clearfix">
+                <div><div>@ViewBag.SubTitle</div></div>
+            </li>
+            @RenderSection("TabsLi", false)
+        </ul>
+        <div class="tabs-con clearfix">
+            @RenderBody()
+        </div>
+    </div>
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+</body>
+</html>

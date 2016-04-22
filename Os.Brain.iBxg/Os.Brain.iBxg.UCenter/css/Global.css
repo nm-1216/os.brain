@@ -1,0 +1,220 @@
+/*
+ *Page:style for sysManager
+ *Code:Craze
+ *Date:2009-1-6
+
+/* 全局CSS定义 */
+body{margin:0;padding:0;background:#fff;color:#000;font:12px SimSun,serif;text-align:center}
+/*Firefox 居中*/
+body>div,body>table,body>form>div,body>form>table{margin:0 auto}
+div,form,ul,ol,li,span,p,img,a img,dl,dt,dd,fieldset,table,td,xmp,pre{margin:0;padding:0;border:0}
+h1,h2,h3,h4,h5,h6{margin:0;padding:0;font-size:12px;font-weight:normal}
+ul,ol,li{list-style:none}
+select,input,img,select{vertical-align:middle;}
+/*div{overflow:hidden}*/
+a img{border:none}
+p{text-indent:2em}
+
+
+/* 默认链接颜色 love hate */
+a:link,a:visited{outline-style:none;color:#333;text-decoration:none}/**/
+a:hover,a:active{color:#c00;text-decoration:underline;}
+
+/* 常用链接颜色 love hate */
+a.L1:link, a.L1:visited, .L1 a:link, .L1 a:visited{ color:#06F;text-decoration:none}
+a.L1:hover, a.L1:active, .L1 a:hover, .L1a:active{ color:#F30;text-decoration:underline}
+a.mbtn:link, a.mbtn:visited{ color:#000;text-decoration:none;padding:0 2px}
+a.mbtn:hover, a.mbtn:active{ color:#FFF;text-decoration:none;padding:0 2px;background-color:#06F}
+a.embtn:link, a.embtn:visited{ color:#FFF;text-decoration:none;font-family:Arial, Helvetica, sans-serif;font-size:7pt;padding:0 2px;background-color:#706C56}
+a.embtn:hover, a.embtn:active{ color:#FFF;text-decoration:none;font-family:Arial, Helvetica, sans-serif;font-size:7pt;padding:0 2px;background-color:#0069D6}
+a.gray:link, a.gray:visited, .gray a:link, .gray a:visited{color:#666;text-decoration:none}
+a.gray:hover, a.gray:active, .gray a:hover, .gray a:active{color:#F30;text-decoration:underline}
+
+/*清除链接虚框
+a,area {blr:expression(this.onFocus=this.blur()) }  for IE
+:focus {-moz-outline-style: none; }  for Firefox
+*/
+
+
+/* 下划线 */
+.unline,.unline a{text-decoration:underline}
+.nounline,.nounline a,.list12 .nounline{text-decoration:none}
+
+
+/* 通用属性 */
+.fl{float:left}
+.fr{float:right}
+.tl{text-align:left}
+.tr{text-align:right}
+.tc{text-align:center!important}
+.show{display:block}
+.hidden{display:none}
+.hand{cursor:pointer;}
+.fontArial{font-family:'Arial'}
+.b{font-weight:bold}
+.unline,.unline a{text-decoration:underline}
+.nounline,.nounline a,.list12 .nounline{text-decoration:none}
+.clear{clear:both;font-size:1px;width:1px;height:0;visibility:hidden;margin-top:0px!important;*margin-top:-1px;line-height:0}/*ie and firefox1.5 updata */
+.clearfix:after {visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0}
+.clearfix{*zoom:1}
+
+
+/* 列表属性 */
+.list12 UL{width:100%;margin:0px auto;_margin :0;}
+.list12 li,.list12 p{color:#039;line-height:20px;font-size:12px;text-align:left;_margin-left :-16px;}
+.list12 li a,.list12 p a{color:#039;text-decoration:underline;}
+.list12 li a:hover,.list12 p a:hover{color:#c00}
+.list12 li img {margin-right:2px;}
+
+.list14 UL{width:100%;margin:0px auto;_margin :0;}
+.list14 li,.list14 p{color:#039;line-height:24px;font-size:14px;text-align:left;_margin-left /* IE5.5 */:-16px;}
+.list14 li a,.list14 p a{color:#039;text-decoration:underline;}
+.list14 li a:hover,.list14 p a:hover{color:#c00}
+.list14 li img {margin-right:2px;}
+
+/* 图混 
+.PTGA{margin:10px auto;}
+.PTGA .picL{width:100px;float:left;}
+.PTGA .picL img{border:1px #EDEDED solid;}
+.PTGA .picL span{background:#EDEDED;float:left;width:100px;line-height:22px;margin-top:1px;}
+.PTGA .picL a{color:#333;}
+.PTGA .picL a:hover{color:#c00;}
+.PTGA .list12{_width :auto;margin:6px auto 0;float:right;}
+.PTGA .list14{_width :auto;margin:0 auto;float:right;}
+*/
+/* 颜色 */
+.red,a.red:link,a.red:visited{color:#F30}
+.blue,a.blue:link,a.blue:visited{color:#06F}
+.black,a.black:link,a.black:visited{color:#000}
+.white,a.white:link,a.white:visited{color:#FFF}
+.gray,a.black:link,a.gray:visited{color:#666}
+.green,a.green:link,a.green:visited{color:#063}
+.orange,a.orange:link,a.orange:visited{color:#f5821f!important}
+
+
+/*字体
+.fB{font-weight:bold}
+.fI{font-style:italic}
+.p10,.p10 a{font-size:10px}
+.p12,.p12 a{font-size:12px}
+.p14,.p14 a{font-size:14px}
+.l15{line-height:150%}
+.ls10{letter-spacing:10px}
+.fNum{font-family:Arial, Helvetica, sans-serif;font-weight:normal}
+*/
+
+/* 列表标红标黑链接 
+.list14 li span.red-n{color:#c00;text-decoration:none;}
+.list14 li span.black-n{color:#000;text-decoration:none;}
+.list14 li span.blue-n{color:#173ee8;text-decoration:none;}
+.list14 li span.red{color:#c00;text-decoration:underline;}
+.list14 li span.black{color:#000;text-decoration:underline;}
+.list14 li span.blue{color:#173ee8;text-decoration:underline;}
+
+.list12 li span.red-n{color:#c00;}
+.list12 li span.black-n{color:#000;}
+.list12 li span.blue-n{color:#173ee8;}
+.list12 li span.red{color:#c00;text-decoration:underline;}
+.list12 li span.black{color:#000;text-decoration:underline;}
+.list12 li span.blue{color:#173ee8;text-decoration:underline;}
+*/
+
+/*空白间距
+.blank3{height:3px;font-size:1px;width:100%;clear:both;overflow:hidden}
+.blank5{height:5px;font-size:1px;width:100%;clear:both;overflow:hidden}
+.blank10{height:10px;font-size:1px;width:100%;clear:both;overflow:hidden}
+*/
+
+/*列表*/
+.list{vertical-align:top;text-align:left;white-space:nowrap;text-overflow:ellipsis;width:98%;color:#999}
+.list li{text-align:left;border-bottom:1px dashed #CCC;padding:4px 2px;color:#999}
+.outList{vertical-align:top;text-align:left;white-space:nowrap;text-overflow:ellipsis;width:98%;color:#999}
+.outList li{text-align:left;list-style:outside;border-bottom:1px dashed #CCC;padding:4px 2px;color:#999}
+.dotList{vertical-align:top;text-align:left;padding:5px 0;white-space:nowrap;text-overflow:ellipsis;width:98%;color:#999}
+.dotList li{text-align:left;padding:3px 0;clear:both;background:url(img/dot.gif) 4px 7px no-repeat;list-style-type:none;color:#999}
+.vList{vertical-align:top;text-align:left;white-space:nowrap;text-overflow:ellipsis;width:98%;color:#999}
+.vList li{text-align:left;border-bottom:1px dashed #CCC;padding:5px 2px 3px 6px;clear:both;background:url(img/video.gif) 3px 3px no-repeat;list-style-type:none;color:#999}
+
+
+
+/* start input don't change Adjust the height for input and select*/
+input{behavior:url(../css/htc/input.htc);cursor:pointer}
+/*
+input[type=text],input[type=password]{height:18px;padding:0;line-height:18px; background:#F0F0F0;border:1px solid #9FAFBB;cursor:pointer}
+input[type=text]:focus,input[type=password]:focus{background:#FFF}
+
+input:not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="image"]),textarea {-moz-appearance: none !important;	-moz-box-sizing: padding-box;min-height: 18px !important;}
+input:not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):focus,textarea:focus {border:1px solid #ebc476!important;-moz-box-shadow: 0 0 1px 1px rgba(255,128,0,0.5) !important;}
+
+
+
+
+
+
+input:focus {
+  -moz-outline: 2px solid -moz-rgba(252,156,0,0.5) !important;
+  -moz-outline-offset: -1px !important;
+  -moz-outline-radius: 3px !important;
+}*/
+
+/* select{vertical-align:expression(document.all?"middle":"");height:expression(document.all?"20px":"18px")}*/
+
+
+
+/* 滚动条 
+.scrollbar{scrollbar-3dlight-color:#ccc;scrollbar-arrow-color:#fff;scrollbar-face-color:#ccc;scrollbar-highlight-color:#fff;scrollbar-shadow-color:#fff;scrollbar-base-color:#ccc;scrollbar-darkshadow-color:#ccc;overflow-y:scroll;width: 685px;line-height:18px;height: 150px;}
+*/
+
+/*鼠标经过变色列表
+.turnColor{event:expression(onmouseover=function(){style.cursor='hand';style.backgroundColor='#ccc'},onmouseout=function(){style.backgroundColor='#ffffff'})}
+*/
+/*列表交替变色
+#li1 {event:expression(onload=function(){var a=document.getElementById("li1").getElementsByTagName("li");for(i=0;i<a.length;i++){(i%2==0)?a(i).style.backgroundColor="#ccc":a(i).style.backgroundColor="#fff"}})}
+*/
+
+/*圆角样式
+.b2{background:#fff;border:1px solid #ccc;margin-bottom:10px;}
+.rcb{height:5px;clear:both}
+.rct .l,.rct .r,.rcb .l,.rcb .r{position:relative;font-size:1px;background-image:url(circle.gif);width:5px;height:5px;overflow:hidden}
+.rct .l,.rcb .l{float:left;left:-1px}
+.rct .r,.rcb .r{float:right;right:-1px}
+.rct .l,.rct .r{top:-1px}
+.rcb .l,.rcb .r{top:1px}
+.rct .l{background-position:top left}
+.rct .r{background-position:top right}
+.rcb .l{background-position:left bottom}
+.rcb .r{background-position:right bottom}
+.cnt{padding:10px}*/
+
+/*
+<div class="b2">
+	<div class="rct">
+		<div class="l"></div>
+		<div class="r"></div>
+	</div>
+
+	<div class="cnt">
+ 		 <div class="t2"><img src="http://img.baidu.com/hi/img/index/i5.gif" border="0" align="absmiddle">圆角效果</div>
+	</div>
+
+	<div class="rcb">
+		<div class="l"></div>
+		<div class="r"></div>
+	</div>
+</div>
+*/
+
+
+
+/*firefox发光
+input[type="text"]:focus {
+  -moz-outline: 2px solid -moz-rgba(252,156,0,0.5) !important;
+  -moz-outline-offset: -1px !important;
+  -moz-outline-radius: 3px !important;
+}
+
+input:focus {
+  -moz-outline: 2px solid -moz-rgba(252,156,0,0.5) !important;
+  -moz-outline-offset: -1px !important;
+  -moz-outline-radius: 3px !important;
+}*/

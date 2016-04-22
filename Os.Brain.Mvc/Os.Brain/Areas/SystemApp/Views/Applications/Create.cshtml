@@ -1,0 +1,24 @@
+﻿@model Os.Brain.Models.Application
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+@section CssBlock{
+    .tl{width:350px}
+}
+
+@section Btn{
+    <li class="back"><i></i>@Html.ActionLink("返回", "Index")</li>
+}
+
+<form asp-controller="Manage" asp-action="AddPhoneNumber" method="post" role="form">
+    <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+    <table class="tab-list">
+        <tr><td class="tl">应用名称</td><td class="tr"><input asp-for="ApplicationName" style="width:200px" /><span asp-validation-for="ApplicationName" class="text-danger"></span></td></tr>
+        <tr><td class="tl">应用介绍</td><td class="tr"><input asp-for="Description" style="width:300px" /><span asp-validation-for="Description" class="text-danger"></span></td></tr>
+    </table>
+
+    <div style="text-align:right;padding:5px 10px 0 0">
+        <input class="btn btn-danger btn-xs" type="submit" value=" 确 定 " />
+    </div>
+</form>

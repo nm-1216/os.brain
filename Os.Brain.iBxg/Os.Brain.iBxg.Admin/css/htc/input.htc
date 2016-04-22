@@ -1,0 +1,44 @@
+<public:component>
+	<public:attach event="onfocus" onevent="doFocus()"/>
+	<public:attach event="onblur" onevent="doBlur()"/>
+
+
+<script>
+
+//定义通用样式
+with(element.style){
+	verticalAlign="middle";
+	fontSize="12px";
+	color="#444";
+}
+
+//普通样式
+if(element.type=="text"||element.type=="password"){
+	with(element.style){
+	    height="18px";
+		lineHeight="18px";
+		backgroundColor="#F0F0F0";
+		border="1px solid #9FAFBB";
+		padding="0";
+	}
+}
+
+//激活样式
+function doFocus(){
+	if(element.type=="text"||element.type=="password"){
+		with(element.style){
+			backgroundColor="#FFF";
+		}
+	}
+}
+
+//失去焦点样式
+function doBlur(){
+	if(element.type=="text"||element.type=="password"){
+		with(element.style){
+			backgroundColor="#F0F0F0";
+		}
+	}
+}
+</script>
+</public:component>

@@ -1,0 +1,81 @@
+@model Os.Brain.Models.EventLog
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+</head>
+<body>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>EventLog</h4>
+        <hr />
+        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Date" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Exception" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Exception" class="form-control" />
+                <span asp-validation-for="Exception" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Level" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Level" class="form-control" />
+                <span asp-validation-for="Level" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Logger" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Logger" class="form-control" />
+                <span asp-validation-for="Logger" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Message" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Message" class="form-control" />
+                <span asp-validation-for="Message" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Thread" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Thread" class="form-control" />
+                <span asp-validation-for="Thread" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+</body>
+</html>

@@ -1,0 +1,39 @@
+﻿@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+@section CssBlock{
+    .tl{width:350px}
+}
+
+@section Btn{
+    <li class="list"><i></i><a asp-action="Index">列表</a></li>
+}
+
+<form asp-action="Order">
+    <input name="list" id="list" class="listValue" type="hidden" />
+    <table class="tab-list">
+        <tr>
+            <td class="tl" style="vertical-align:middle;text-align:center;padding:10px 0">
+                <div style="padding-left:45%" class="clearfix">
+                    <select id="SList" name="SList" multiple="multiple" size="10" style="float:left;display:block;margin-right:8px">
+                        @{
+                            foreach (var i in (ViewBag.SelectListItem as IList<SelectListItem>))
+                            {
+                            <option value="@i.Value">@i.Text</option>
+                            }
+                        }
+                    </select>
+                    <div style="float:left;padding:40px 0 0 0">
+                        <i onclick="moveUpDown('UP', '#SList')" class="btnUp"></i>
+                        <i onclick="moveUpDown('DOWN', '#SList')" class="btnDown"></i>
+                    </div>
+                </div>
+            </td>
+            
+        </tr>
+    </table>
+
+    <div style=" text-align:right;padding:5px 10px 0 0">
+        <input class="btn btn-danger btn-xs" type="submit" value=" 确 定 " />
+    </div>
+</form>

@@ -1,0 +1,57 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="right.master.cs" Inherits="Os.Brain.iBxg.UCenter.right" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <base target="_self" />
+    <title id="Title1" runat="server"></title>
+    <script src="../js/jquery.js" type="text/javascript"></script>
+    <script src="../js/tab.js" type="text/javascript"></script>
+
+    <link href="css/Global.css" type="text/css" rel="Stylesheet"  />
+    <link href="css/tab.css" type="text/css" rel="Stylesheet"  />
+    <link href="css/table.css" type="text/css" rel="Stylesheet"  />
+
+    <style type="text/css">
+        body{background:#EEF2FB}
+        
+        .box_0{background:url(../image/right-top-bg.gif);width:98%;height:29px}
+        .box_0_l{background:url(../image/right-top-bg.gif) 0 -58px no-repeat;width:3px;height:29px;float:left}
+        .box_0_c{background:url(../image/right-top-bt.jpg) no-repeat;width:85px;height:17px;float:left;margin-left:8px;padding-top:12px}
+        .box_0_r{background:url(../image/right-top-bg.gif) 0 -29px no-repeat;width:3px;height:29px;float:right}
+        
+        .box_1{background:url(../image/right-middle2-bg.gif);width:98%;height:17px}
+        .box_1_l{width:10px;height:17px;background:url(../image/right-middle2-bg.gif) 0 -34px;float:left}
+        .box_1_r{width:10px;height:17px;background:url(../image/right-middle2-bg.gif) 0 -17px;float:right}
+        
+        .box_2{width:98%;border:0}
+        .box_2_l{width:10px;background:url(../image/right-middle-bg.gif) -4px 0 repeat-y;}
+        .box_2_c{background:#f1f4fa;padding:20px 0 10px 0}
+        .box_2_r{width:10px;background:url(../image/right-middle-bg.gif) 6px 0 repeat-y;}
+    </style>
+    <asp:ContentPlaceHolder id="head" runat="server" />
+</head>
+<body>
+<form id="Form1" runat="server">
+
+<div class="box_0">
+    <div class="box_0_l"></div>
+    <div class="box_0_c"><asp:ContentPlaceHolder id="ContentPlaceHolder_Title" runat="server" /></div>
+    <div class="box_0_r"></div>        
+</div>
+    
+<table class="box_2" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="box_2_l"></td>
+        <td class="box_2_c"><asp:ContentPlaceHolder id="ContentPlaceHolder_Content" runat="server" /></td>
+        <td class="box_2_r"></td>
+    </tr>
+</table>
+
+<div class="box_1">
+    <div class="box_1_l"></div>        
+    <div class="box_1_r"></div>        
+</div>
+
+</form></body></html>

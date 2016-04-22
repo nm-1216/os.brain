@@ -1,0 +1,7 @@
+﻿.PList{font-size:12px;margin-top:10px;font-family:'宋体'}
+.PList .nav A{text-decoration:none;text-align:center;display:inline-block;padding-top:1px;*padding-top:2px;vertical-align:middle;height:14px;border:1px solid #1B3243;background:#D5E1EA}        
+.PList .nav A:hover{background:#476D90;color:#fff}        
+.PList .nav A.arr{color:#000;width:50px}                
+.PList .nav A.num{width:17px}
+.PList .nav A.Cur{background:#000;color:#fff;width:17px}
+.PList .jump input{width:24px;font-size:10px;background-color:#eee}

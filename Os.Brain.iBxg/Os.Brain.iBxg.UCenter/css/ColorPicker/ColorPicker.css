@@ -1,0 +1,17 @@
+/* CalendarBox Start  */
+
+#ColorBox{width:200px;height:auto;border:1px #468DDD solid;padding-top:1px}
+#ColorBox *{font:12px "宋体",sans-serif;}
+#ColorBox table{width:100%;border-collapse:collapse;border-left:1px solid #fff;border-right:1px solid #fff}
+#ColorBox td{margin:0;padding:0;border:0;vertical-align:middle}
+#ColorBox .fb{font-weight:bold}
+#ColorBox .tl{text-align:left}
+#ColorBox .tr{text-align:right}
+#ColorBox .h{height:20px;background:#468DDD;color:#fff}
+#ColorBox .h td{padding:3px 3px 0 3px}
+#ColorBox .h a{color:#fff;text-decoration:none}
+#ColorBox #picker{background:#000;margin:1px;text-align:left}
+#ColorContainer{width:200px; height:auto; position:absolute; z-index:999;overflow:visible}
+#ColorContainerIfream{width:196px;height:auto; position:absolute; z-index:998}
+
+/* ColorBox End  */

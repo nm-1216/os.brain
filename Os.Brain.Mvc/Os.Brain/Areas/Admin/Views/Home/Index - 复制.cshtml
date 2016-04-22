@@ -1,0 +1,96 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNet.Http
+@using Microsoft.AspNet.Http.Authentication
+
+
+@{
+    ViewBag.Title = "";
+}
+
+@section CssFileBlock{
+<link rel="stylesheet" href="~/css/model.css" />
+<script src="~/lib/layer/layer.js"></script>
+}
+
+@section AutoJsBlock{
+    $('.t1').on('click', function(){
+    layer.alert('用户虐我千百遍,我待用户如初恋...', {
+    skin: 'layui-layer-molv'
+    ,closeBtn: 0,
+    icon: 6,
+    shift: 2
+    });
+    });
+
+    $('.t2').on('click', function(){
+
+    layer.open({
+    type: 2,
+    title: '登录日志',
+    skin: 'layui-layer-molv',
+    shadeClose: true,
+    shade: 0.8,
+    area: ['500px', '300px'],
+    content: '/admin/account/loginlogs' //iframe的url
+    });
+
+    });
+
+    $('.os-bd-menu div.tabs>ul li:even').hover(
+    function(){$(this).addClass('over')},function(){$(this).removeClass('over')}
+    )
+
+    $('.tab_con li:odd').hover(
+    function(){$(this).addClass('on')},
+    function(){$(this).removeClass('on')}
+    )
+
+    $('.os-bd-menu div.tabs>ul li:even').click(
+    function(){
+    $('.os-bd-menu div.tabs>ul li:even').removeClass('on')
+    $(this).addClass('on')
+    $('.os-bd-menu div.tabs>div').hide()
+    $($(this).attr('data-val')+'').show()
+    }
+    )
+
+    $('.tab_con li:odd').click(
+    function(){
+    $('.tab_con li:odd').removeClass('click')
+    $(this).addClass('click')
+    window.parent.mainFrame.location.href = $(this).attr('data-val');
+    }
+    )
+
+}
+
+<table class="os-fw" border="0">
+    <tr>
+        <td class="top">
+            <div class="os-bd-top"><div></div></div>
+            @{ await Html.RenderPartialAsync("_Menu"); }
+        </td>
+    </tr>
+    <tr>
+        <td class="center">
+            <iframe id="mainFrame" name="mainFrame" style="height:500px;width:100%; overflow:auto" frameborder="0" src="home/desk"></iframe>
+        </td>
+    </tr>
+    <tr>
+        <td class="bottom">
+            <form asp-controller="Account" asp-route-area="admin" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
+                <table class="os-bd-btm">
+                    <tr>
+                        <td class="t0">权限管理系统 Powered By: Os.Brain Team 技术支持：<a href="mailto:o7o@outlook.com?subject=Os.Brain Question&body=Os.Brain Question">o7o@outlook.com</a></td>
+                        <td class="t1" onclick="javascript:void(0)"><i></i>版本信息</td>
+                        <td class="t2" onclick="javascript:void(0)"><i></i>登陆日志</td>
+                        <td class="t3" onclick="javascript:void(0)"><i></i>个人设定</td>
+                        <td class="t4" onclick="javascript: window.mainFrame.location.href = '/home/desk'"><i></i>回到首页</td>
+                        <td class="t5" onclick=" javascript:if(confirm('你确定要退出系统吗？')){ document.getElementById('logoutForm').submit()}"><i></i>退出系统</td>
+                        <td class="t6" onclick="javascript:void(0)"><i></i>帮助手册</td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,83 @@
+﻿@model Os.Brain.Models.Path
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+
+@section CssBlock{
+    .tl{width:350px}
+}
+
+@section Btn{
+    @{
+        if (string.IsNullOrEmpty(Model.ParentId))
+        {
+        <li class="add"><i></i><a asp-action="Create" asp-route-ApplicationId="@ViewBag.ApplicationId" asp-route-ParentId="@ViewBag.ParentId">添加新模块</a></li>
+        <li class="back"><i></i><a asp-action="SubIndex" asp-route-ApplicationId="@ViewBag.ApplicationId">返回</a></li>
+        }
+        else
+        {
+        <li class="back"><i></i><a asp-action="Details" asp-route-id="@Model.ParentId">返回</a></li>
+        }
+    }
+    <li class="edit"><i></i><a asp-action="Edit" asp-route-id="@Model.PathId">编辑</a></li>
+    <li class="delete"><i></i><a asp-action="Delete" asp-route-id="@Model.PathId">删除</a></li>
+}
+
+<div id="tabs-1" class="tabs-con-box">
+
+    <table class="tab-list">
+        <tr>
+            <th colspan="5" style="text-align:left;padding-left:5px;">
+                <a asp-action="Index" asp-route-id="@Model.PathId">应用管理</a> >
+                <a asp-action="Index" asp-route-ApplicationId="@Model.ApplicationId">@ViewData["ApplicationName"]</a> >
+                @{
+                    if (ViewData["PathName"].ToString() != "无")
+                    {
+                    <a asp-action="Index" asp-route-ApplicationId="@Model.ApplicationId">@ViewData["PathName"]</a> @(">")
+                    }
+                }
+
+                @Html.DisplayFor(model => model.PathName)
+            </th>
+        </tr>
+        <tr><td class="tl">所属应用程序</td><td class="tr">@ViewData["ApplicationName"]</td></tr>
+        <tr><td class="tl">父级模块	</td><td class="tr">@ViewData["PathName"]</td></tr>
+        <tr><td class="tl">模块分类名称</td><td class="tr">@Html.DisplayFor(model => model.PathName)</td></tr>
+        <tr><td class="tl">模块分类编码</td><td class="tr">@Html.DisplayFor(model => model.PathCategory)</td></tr>
+        <tr><td class="tl">模块路径</td><td class="tr">@Html.DisplayFor(model => model._Path)</td></tr>
+    </table>
+</div>
+
+<div id="tabs-2" class="tabs-con-box collapse">
+    <table class="tab-list">
+        <tr>
+            <th width="350">模块分类名称</th>
+            <th width="350">模块分类编码</th>
+            <th>模块路径</th>
+        </tr>
+
+        @foreach (var item in (ViewBag.child as List<Path>))
+        {
+        <tr class="tr@(Model.Child.ToList().IndexOf(item)%2+1)">
+            <td>
+                @Html.ActionLink(item.PathName, "Details", new { id = item.PathId })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PathCategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item._Path)
+            </td>
+        </tr>
+        }
+
+    </table>
+
+</div>
+
+@section TabsLi{
+    <li data-val="#tabs-2" class="clearfix">
+        <div><div>子模块列表</div></div>
+    </li>
+}

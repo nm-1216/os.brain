@@ -1,0 +1,50 @@
+﻿@model Os.Brain.Mvc.Pager.PageList<Os.Brain.Models.EventLog>
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+
+@section CssBlock{
+    .tab-list td{text-align:center}
+}
+
+@section Btn{
+}
+
+<table class="tab-list">
+    <tr>
+        <th width="350">Date</th>
+        <th width="350">Logger</th>
+        <th>Level</th>
+        <th style="width:80px">Thread</th>
+        <th>Exception</th>
+        <th style="width:80px">Message</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr class="tr@(Model.ToList().IndexOf(item)%2+1)">
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Logger)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Level)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Thread)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Exception)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Message)
+        </td>
+    </tr>
+    }
+
+</table>
+
+@Html.Raw(Os.Brain.Mvc.Pager.Pager.Pager1(Context.Request.Path.Value, Model.CurrPage, Model.PageSize, Model.PageCount, Model.RecordCount))

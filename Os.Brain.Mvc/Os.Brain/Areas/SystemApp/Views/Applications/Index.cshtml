@@ -1,0 +1,43 @@
+﻿@model Os.Brain.Mvc.Pager.PageList<Os.Brain.Models.Application>
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+
+@section CssBlock{
+    .tab-list td{text-align:center}
+}
+
+@section Btn{
+<li class="add"><i></i><a asp-action="Create">添加</a></li>
+<li class="order"><i></i><a asp-action="Order">排序</a></li>
+}
+
+<table class="tab-list">
+    <tr>
+        <th width="350">应用编号</th>
+        <th width="350">应用名称</th>
+        <th>应用介绍</th>
+        <th style="width:80px">排序</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr class="tr@(Model.ToList().IndexOf(item)%2+1)">
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicationId)
+        </td>
+        <td>
+            @Html.ActionLink(item.ApplicationName, "Details", new { id = item.ApplicationId })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderBy)
+        </td>
+    </tr>
+    }
+
+</table>
+@Html.Raw(Os.Brain.Mvc.Pager.Pager.Pager1(Context.Request.Path.Value, Model.CurrPage, Model.PageSize, Model.PageCount, Model.RecordCount))

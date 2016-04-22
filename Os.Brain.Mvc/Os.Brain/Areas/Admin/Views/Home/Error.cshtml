@@ -1,0 +1,51 @@
+﻿
+@{ 
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    @*<META http-equiv="refresh" content="5; url=/">*@
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@string.Format("{0} - {1}", ViewData["Title"], "权限管理系统(Os.Brain)").Trim(' ', '-')</title>
+
+    <style type="text/css">
+            body {
+                background: #f0f0f0;
+                font-size: 14px;
+                margin: 0;
+                padding: 0;
+                border: 0;
+                border-top: 18px solid #ccc;
+                overflow: hidden;
+            }
+
+            .msg {
+                line-height: 20px;
+                margin: 15px 0 0 20px;
+            }
+
+            .log {
+                text-align: right;
+                padding-right: 20px;
+            }
+
+            a:link, a:visited {
+                color: #000;
+                text-decoration: underline;
+            }
+
+            a:hover, a:over {
+                color: #888;
+                text-decoration: underline;
+            }
+    </style>
+</head>
+
+<body>
+
+    <div class="msg">对不起，您浏览的网页未找到，请返回重新查询！<br>		如有其它问题请联系021-50182991，给您带来不便，深感歉意！</div>
+    <div class="log"><a class="Err" href="/">权限管理系统(Os.Brain)</a></div>
+</body>
+</html>

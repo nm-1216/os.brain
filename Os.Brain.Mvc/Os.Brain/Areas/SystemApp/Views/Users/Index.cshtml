@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Os.Brain.Models.User>
+
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+
+
+@section CssBlock{
+    .cursor{cursor:pointer}
+    #tabs-1 td{text-align:center}
+    #tabs-1 .t0{width:50px; cursor:pointer}
+    #tabs-1 .t1{width:100px;}
+    #tabs-1 .t2{width:100px}
+    #tabs-1 .t3{width:150px}
+    #tabs-1 .t4{width:230px}
+    .tab-list td{text-align:center}
+
+}
+
+@section Btn{
+    <li class="add"><i></i><a asp-action="Create">添加</a></li>
+}
+<table class="tab-list">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mobile)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Group)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProfessionalTitle)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.LockoutEnabled)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LockoutEnd)
+        </th>
+        <th>
+            尝试次数
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr class="tr@(Model.ToList().IndexOf(item)%2+1)">
+
+
+        <td>
+            <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Email)</a>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mobile)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Group)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProfessionalTitle)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.LockoutEnabled)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LockoutEnd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccessFailedCount)
+        </td>
+
+        
+    </tr>
+    }
+</table>
+

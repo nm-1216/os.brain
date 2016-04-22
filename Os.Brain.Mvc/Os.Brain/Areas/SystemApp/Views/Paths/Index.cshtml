@@ -1,0 +1,40 @@
+﻿@model Os.Brain.Mvc.Pager.PageList<Os.Brain.Models.Application>
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+
+@section CssBlock{
+    .tab-list td{text-align:center}
+}
+
+
+<table class="tab-list">
+    <tr>
+        <th width="350">应用编号</th>
+        <th width="350">应用名称</th>
+        <th>应用介绍</th>
+        <th style="width:80px">排序</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr class="tr@(Model.ToList().IndexOf(item)%2+1)">
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicationId)
+        </td>
+        <td>
+            <a asp-action="SubIndex" asp-controller="Paths" asp-route-ApplicationId="@item.ApplicationId">@item.ApplicationName</a>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderBy)
+        </td>
+    </tr>
+    }
+
+</table>
+@Html.Raw(Os.Brain.Mvc.Pager.Pager.Pager1(Context.Request.Path.Value, Model.CurrPage, Model.PageSize, Model.PageCount, Model.RecordCount))
+

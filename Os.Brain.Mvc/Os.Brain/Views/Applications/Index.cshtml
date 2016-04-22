@@ -1,0 +1,46 @@
+@model IEnumerable<Os.Brain.Models.Application>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplicationName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th></th>
+    </tr>
+    
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.ApplicationId">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.ApplicationId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.ApplicationId">Delete</a>
+        </td>
+    </tr>
+}
+</table>
+</body>
+</html>
