@@ -11,7 +11,7 @@
     <li class="back"><i></i>@Html.ActionLink("返回", "Index")</li>
 }
 
-<form asp-controller="Manage" asp-action="AddPhoneNumber" method="post" role="form">
+<form asp-controller="Manage" method="post" role="form">
     <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
     <table class="tab-list">
         <tr><td class="tl">应用名称</td><td class="tr"><input asp-for="ApplicationName" style="width:200px" /><span asp-validation-for="ApplicationName" class="text-danger"></span></td></tr>

@@ -1,0 +1,248 @@
+﻿@model Os.Brain.Models.CMS.Cms_News
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Cms_News</h4>
+        <hr />
+        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="News_ID" />
+        <div class="form-group">
+            <label asp-for="News_AddDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_AddDate" class="form-control" />
+                <span asp-validation-for="News_AddDate" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_AddUser" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_AddUser" class="form-control" />
+                <span asp-validation-for="News_AddUser" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Author" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Author" class="form-control" />
+                <span asp-validation-for="News_Author" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Catalog" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Catalog" class="form-control" />
+                <span asp-validation-for="News_Catalog" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Color" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Color" class="form-control" />
+                <span asp-validation-for="News_Color" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_EditDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_EditDate" class="form-control" />
+                <span asp-validation-for="News_EditDate" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_EditUser" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_EditUser" class="form-control" />
+                <span asp-validation-for="News_EditUser" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Field1" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Field1" class="form-control" />
+                <span asp-validation-for="News_Field1" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Field10" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Field10" class="form-control" />
+                <span asp-validation-for="News_Field10" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Field2" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Field2" class="form-control" />
+                <span asp-validation-for="News_Field2" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Field3" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Field3" class="form-control" />
+                <span asp-validation-for="News_Field3" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Field4" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Field4" class="form-control" />
+                <span asp-validation-for="News_Field4" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Field5" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Field5" class="form-control" />
+                <span asp-validation-for="News_Field5" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Field6" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Field6" class="form-control" />
+                <span asp-validation-for="News_Field6" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Field7" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Field7" class="form-control" />
+                <span asp-validation-for="News_Field7" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Field8" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Field8" class="form-control" />
+                <span asp-validation-for="News_Field8" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Field9" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Field9" class="form-control" />
+                <span asp-validation-for="News_Field9" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_From" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_From" class="form-control" />
+                <span asp-validation-for="News_From" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Hits" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Hits" class="form-control" />
+                <span asp-validation-for="News_Hits" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_IP" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_IP" class="form-control" />
+                <span asp-validation-for="News_IP" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Ico" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Ico" class="form-control" />
+                <span asp-validation-for="News_Ico" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Img" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Img" class="form-control" />
+                <span asp-validation-for="News_Img" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Keywords" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Keywords" class="form-control" />
+                <span asp-validation-for="News_Keywords" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Link" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Link" class="form-control" />
+                <span asp-validation-for="News_Link" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Property" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Property" class="form-control" />
+                <span asp-validation-for="News_Property" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Subtitle" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Subtitle" class="form-control" />
+                <span asp-validation-for="News_Subtitle" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Summary" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Summary" class="form-control" />
+                <span asp-validation-for="News_Summary" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Text" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Text" class="form-control" />
+                <span asp-validation-for="News_Text" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_Title" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_Title" class="form-control" />
+                <span asp-validation-for="News_Title" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_isAuth" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_isAuth" class="form-control" />
+                <span asp-validation-for="News_isAuth" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="News_isDel" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="News_isDel" class="form-control" />
+                <span asp-validation-for="News_isDel" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

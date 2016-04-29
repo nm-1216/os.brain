@@ -109,7 +109,6 @@ namespace Os.Brain
                 options.LoginPath = new Microsoft.AspNet.Http.PathString("/admin/Account/Login");
                 options.AutomaticAuthenticate = true;
                 options.AutomaticChallenge = true;
-
             }
 
 
@@ -122,10 +121,7 @@ namespace Os.Brain
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}", defaults: new { area = "admin" });
-
-
                 routes.MapRoute("areaRoute", "{area:exists}/{controller}/{action}/{page?}", new { controller = "Home", action = "Index" });
-
             });
         }
 

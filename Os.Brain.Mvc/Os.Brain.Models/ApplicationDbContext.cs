@@ -2,6 +2,7 @@
 namespace Os.Brain.Models
 {
     using System;
+    using CMS;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Microsoft.Data.Entity;
     using Microsoft.Data.Entity.Infrastructure;
@@ -81,6 +82,10 @@ namespace Os.Brain.Models
         //public DbSet<BinLocation> BinLocations { get; set; }
         //public DbSet<Tray> Trays { get; set; }
         //public DbSet<TrayInBinLocation> TrayInBinLocations { get; set; }
+        #endregion
+
+        #region DbSet CMS
+        public DbSet<Cms_News> News { get; set; }
 
         #endregion
 
@@ -201,7 +206,27 @@ namespace Os.Brain.Models
                 b.HasKey(r => r.LogID);
                 b.ToTable("AspNetErrorLogs");
             });
-            
+
+            builder.Entity<Cms_News>(b =>
+            {
+                b.HasKey(r => r.News_ID);
+                b.ToTable("CmsNews");
+                b.Property(u => u.News_AddDate).IsRequired();
+                b.Property(u => u.News_AddUser).HasMaxLength(64).IsRequired();
+                b.Property(u => u.News_Catalog).IsRequired();
+                b.Property(u => u.News_EditDate).IsRequired();
+                b.Property(u => u.News_EditUser).HasMaxLength(64).IsRequired();
+                b.Property(u => u.News_From).HasMaxLength(32).IsRequired();
+                b.Property(u => u.News_Hits).IsRequired();
+                b.Property(u => u.News_isAuth).IsRequired();
+                b.Property(u => u.News_isDel).IsRequired();
+                b.Property(u => u.News_Keywords).HasMaxLength(128).IsRequired();
+                b.Property(u => u.News_Subtitle).HasMaxLength(32).IsRequired();
+                b.Property(u => u.News_Summary).HasMaxLength(256).IsRequired();
+                b.Property(u => u.News_Text).HasColumnType("Text").IsRequired();
+                b.Property(u => u.News_Title).HasMaxLength(64).IsRequired();
+            });
+
             #endregion
 
             #endregion

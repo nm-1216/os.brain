@@ -8,9 +8,10 @@ using Os.Brain.Models;
 namespace os.brain.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160425061949_addcms_news")]
+    partial class addcms_news
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -126,26 +127,19 @@ namespace os.brain.Migrations
                     b.Property<int>("News_ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime?>("News_AddDate")
-                        .IsRequired();
+                    b.Property<DateTime?>("News_AddDate");
 
-                    b.Property<string>("News_AddUser")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 64);
+                    b.Property<string>("News_AddUser");
 
                     b.Property<string>("News_Author");
 
-                    b.Property<int?>("News_Catalog")
-                        .IsRequired();
+                    b.Property<int?>("News_Catalog");
 
                     b.Property<string>("News_Color");
 
-                    b.Property<DateTime?>("News_EditDate")
-                        .IsRequired();
+                    b.Property<DateTime?>("News_EditDate");
 
-                    b.Property<string>("News_EditUser")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 64);
+                    b.Property<string>("News_EditUser");
 
                     b.Property<string>("News_Field1");
 
@@ -167,12 +161,9 @@ namespace os.brain.Migrations
 
                     b.Property<string>("News_Field9");
 
-                    b.Property<string>("News_From")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 32);
+                    b.Property<string>("News_From");
 
-                    b.Property<int?>("News_Hits")
-                        .IsRequired();
+                    b.Property<int?>("News_Hits");
 
                     b.Property<string>("News_IP");
 
@@ -180,35 +171,23 @@ namespace os.brain.Migrations
 
                     b.Property<string>("News_Img");
 
-                    b.Property<string>("News_Keywords")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 128);
+                    b.Property<string>("News_Keywords");
 
                     b.Property<string>("News_Link");
 
                     b.Property<string>("News_Property");
 
-                    b.Property<string>("News_Subtitle")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 32);
+                    b.Property<string>("News_Subtitle");
 
-                    b.Property<string>("News_Summary")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 256);
+                    b.Property<string>("News_Summary");
 
-                    b.Property<string>("News_Text")
-                        .IsRequired()
-                        .HasAnnotation("Relational:ColumnType", "Text");
+                    b.Property<string>("News_Text");
 
-                    b.Property<string>("News_Title")
-                        .IsRequired()
-                        .HasAnnotation("MaxLength", 64);
+                    b.Property<string>("News_Title");
 
-                    b.Property<int?>("News_isAuth")
-                        .IsRequired();
+                    b.Property<int?>("News_isAuth");
 
-                    b.Property<bool?>("News_isDel")
-                        .IsRequired();
+                    b.Property<bool?>("News_isDel");
 
                     b.HasKey("News_ID");
 

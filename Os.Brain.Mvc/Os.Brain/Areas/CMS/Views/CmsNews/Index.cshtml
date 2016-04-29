@@ -1,4 +1,4 @@
-﻿@model Os.Brain.Mvc.Pager.PageList<Os.Brain.Models.Application>
+﻿@model Os.Brain.Mvc.Pager.PageList<Os.Brain.Models.CMS.Cms_News>
 
 @{
     Layout = "~/Views/Shared/_Modules.cshtml";
@@ -10,34 +10,36 @@
 
 @section Btn{
     <li class="add"><i></i><a asp-action="Create">添加</a></li>
-    <li class="order"><i></i><a asp-action="Order">排序</a></li>
 }
 
 <table class="tab-list">
     <tr>
-        <th width="350">应用编号</th>
-        <th width="350">应用名称</th>
-        <th>应用介绍</th>
-        <th style="width:80px">排序</th>
+        <th>标题</th>
+        <th width="60">点击次数</th>
+        <th width="80">创建时间</th>
+        <th width="80">创建人</th>
     </tr>
 
     @foreach (var item in Model)
     {
     <tr class="tr@(Model.ToList().IndexOf(item)%2+1)">
         <td>
-            @Html.DisplayFor(modelItem => item.ApplicationId)
+            <a asp-action="Details" asp-route-id="@item.News_ID" title="@item.News_Title">@item.News_Subtitle</a>
         </td>
         <td>
-            @Html.ActionLink(item.ApplicationName, "Details", new { id = item.ApplicationId })
+            @Html.DisplayFor(modelItem => item.News_Hits)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
+            @Html.DisplayFor(modelItem => item.News_AddDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.OrderBy)
+            @Html.DisplayFor(modelItem => item.News_AddUser)
         </td>
     </tr>
     }
 
 </table>
+
 @Html.Raw(Os.Brain.Mvc.Pager.Pager.Pager1(Context.Request.Path.Value, Model.CurrPage, Model.PageSize, Model.PageCount, Model.RecordCount))
+
+

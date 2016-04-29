@@ -1,0 +1,53 @@
+﻿@model Os.Brain.Models.CMS.Cms_News
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+@section CssBlock{
+    .tl{width:350px}
+}
+@section JsFileBlock{
+<script src="//cdn.ckeditor.com/4.5.8/standard/ckeditor.js"></script>
+}
+
+@section Btn{
+    <li class="back"><i></i>@Html.ActionLink("返回", "Index")</li>
+}
+
+
+@section AutoJsBlock{
+    var editor = CKEDITOR.replace('News_Text');
+    //CKFinder.setupCKEditor(editor, '/ckfinder/');
+}
+
+@section TabsLi{
+    <li data-val="#tabs-2" class="clearfix"><div><div>内容</div></div></li>
+}
+
+<form asp-controller="Manage">
+    <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+    <div id="tabs-1" class="tabs-con-box">
+        <table class="tab-list">
+            <tr><td class="tl">标题</td><td class="tr"><input asp-for="News_Title" style="width:300px" /><span asp-validation-for="News_Title" class="text-danger"></span></td></tr>
+            <tr><td class="tl">短标题</td><td class="tr"><input asp-for="News_Subtitle" style="width:200px" /><span asp-validation-for="News_Subtitle" class="text-danger"></span></td></tr>
+            <tr><td class="tl">跳转链接</td><td class="tr"><input asp-for="News_Link" style="width:200px" /><span asp-validation-for="News_Link" class="text-danger"></span></td></tr>
+            <tr><td class="tl">关键字</td><td class="tr"><input asp-for="News_Keywords" style="width:300px" /><span asp-validation-for="News_Keywords" class="text-danger"></span></td></tr>
+            <tr><td class="tl">摘要</td><td class="tr"><input asp-for="News_Summary" style="width:300px" /><span asp-validation-for="News_Summary" class="text-danger"></span></td></tr>
+            <tr><td class="tl">来源</td><td class="tr"><input asp-for="News_From" style="width:300px" /><span asp-validation-for="News_From" class="text-danger"></span></td></tr>
+            <tr><td class="tl">作者</td><td class="tr"><input asp-for="News_Author" style="width:200px" /><span asp-validation-for="News_Author" class="text-danger"></span></td></tr>
+            <tr><td class="tl">分类</td><td class="tr"><input asp-for="News_Catalog" style="width:300px" /><span asp-validation-for="News_Catalog" class="text-danger"></span></td></tr>
+            <tr><td class="tl">标题颜色</td><td class="tr"><input asp-for="News_Color" style="width:200px" /><span asp-validation-for="News_Color" class="text-danger"></span></td></tr>
+            <tr><td class="tl">属性</td><td class="tr"><input asp-for="News_Property" style="width:300px" /><span asp-validation-for="News_Property" class="text-danger"></span></td></tr>
+        </table>
+    </div>
+    <div id="tabs-2" class="tabs-con-box collapse">
+        <table class="tab-list">
+            <tr><td class="tl">内容</td><td class="tr"><span asp-validation-for="News_Text" class="text-danger"></span></td></tr>
+            <tr><td colspan="2" style="padding:0"><textarea asp-for="News_Text" style="width:80%"></textarea></td></tr>
+        </table>
+    </div>
+
+    <div style="text-align:right;padding:5px 10px 0 0">
+        <input class="btn btn-danger btn-xs" type="submit" value=" 确 定 " />
+    </div>
+</form>

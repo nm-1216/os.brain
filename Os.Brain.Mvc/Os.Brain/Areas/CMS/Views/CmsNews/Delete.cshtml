@@ -1,0 +1,208 @@
+﻿@model Os.Brain.Models.CMS.Cms_News
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Cms_News</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.News_AddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_AddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_AddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_AddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Author)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Author)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Catalog)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Catalog)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Color)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Color)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_EditDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_EditDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_EditUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_EditUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Field1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Field1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Field10)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Field10)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Field2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Field2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Field3)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Field3)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Field4)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Field4)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Field5)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Field5)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Field6)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Field6)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Field7)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Field7)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Field8)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Field8)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Field9)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Field9)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_From)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_From)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Hits)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Hits)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_IP)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_IP)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Ico)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Ico)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Img)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Img)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Keywords)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Keywords)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Link)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Link)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Property)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Property)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Subtitle)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Subtitle)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Summary)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Summary)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Text)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Text)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_isAuth)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_isAuth)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News_isDel)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News_isDel)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </form>
+</div>

@@ -3,6 +3,7 @@ using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Infrastructure;
 using Os.Brain.Models;
 using Os.Brain.Models.WMS;
+using Os.Brain.Models.CMS;
 
 namespace Os.Brain.Models
 {
@@ -37,6 +38,8 @@ namespace Os.Brain.Models
         public DbSet<Role> Role { get; set; }
 
         public DbSet<Group> Group { get; set; }
+
+        public DbSet<Cms_News> Cms_News { get; set; }
         
 
 
