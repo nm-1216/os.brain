@@ -1,0 +1,11 @@
+﻿@model Os.Brain.Models.WaterMeter
+
+<table class="tab-list">
+    <tr><td class="tl">账号</td><td class="tr">@Html.DisplayFor(model => model.Wm_IdCard)</td></tr>
+    <tr><td class="tl">登录名</td><td class="tr">@Html.DisplayFor(model => model.Wm_LogName)</td></tr>
+    <tr><td class="tl">电话</td><td class="tr">@Html.DisplayFor(model => model.Wm_Tel)</td></tr>
+    <tr><td class="tl">微信</td><td class="tr">@Html.DisplayFor(model => model.Wm_Weixin)</td></tr>
+    <tr><td class="tl">是否是集体表</td><td class="tr">@Html.DisplayFor(model => model.isGroup)</td></tr>
+    <tr><td class="tl">是否需要缴费</td><td class="tr">@Html.DisplayFor(model => model.isNeedPay)</td></tr>
+</table>
+

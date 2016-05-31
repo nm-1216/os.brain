@@ -1,0 +1,49 @@
+﻿@using Os.Brain.ViewModels.Water;
+@model IEnumerable<WaterPaymentsViewModel>
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+
+@section CssBlock{
+    .tab-list td{text-align:center}
+}
+
+
+
+<table class="tab-list">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Year)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Month)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsExist)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr class="tr@(Model.ToList().IndexOf(item) % 2 + 1)">
+        <td>
+            @Html.DisplayFor(modelItem => item.Year)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Month)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsExist)
+        </td>
+        <td>
+            @if (!item.IsExist)
+            {
+                @Html.ActionLink("结算", "Delete", new { item.Year, item.Month })
+            }
+        </td>
+    </tr>
+    }
+
+</table>
+

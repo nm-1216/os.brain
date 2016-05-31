@@ -1,10 +1,7 @@
 ﻿
 namespace Os.Brain.Mvc.Pager
 {
-    using Microsoft.AspNet.Http;
-    using Microsoft.Net.Http.Server;
     using System.Text;
-    using System.Text.RegularExpressions;
 
     public static class Pager
     {

@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Os.Brain.Models.WaterPrices>
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+
+@section CssBlock{
+    .tab-list td{text-align:center}
+}
+
+@section Btn{
+    <li class="add"><i></i><a asp-action="Create">添加</a></li>
+}
+
+@section TabsLi{
+    <li data-val="#tabs-2" class="clearfix"><div><div>搜索</div></div></li>
+}
+
+<form asp-action="Index" id="mainForm">
+    <div id="tabs-1" class="tabs-con-box">
+        <table class="tab-list">
+            <tr>
+                <th>价格类</th>
+
+                <th>价格</th>
+                <th>开始吨位</th>
+                <th>结束吨位</th>
+                <th>添加时间</th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+            <tr class="tr@(Model.ToList().IndexOf(item)%2+1)">
+                <td>
+                    <a asp-action="Details" asp-controller="PricesTypes" asp-route-id="@item.ids">查看(@item.ids)</a>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prices_Value)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prices_Start)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prices_End)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prices_AddTime)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Prices_Id">修改</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Prices_Id">删除</a>
+                </td>
+            </tr>
+            }
+        </table>
+    </div>
+
+    <div id="tabs-2" class="tabs-con-box collapse">
+        <table class="tab-list">
+            <tr>
+                <td class="tl">
+                    价格类:
+                    @Html.TextBox("ids", string.Empty)
+                </td>
+
+                <td class="tr">
+                    <input class="btn-submit" type="submit" value=" 搜 索 ">
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>

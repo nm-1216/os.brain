@@ -1,0 +1,20 @@
+﻿@model Os.Brain.Models.WaterPrices
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+@section CssBlock{
+    .tl{width:350px}
+}
+
+@section Btn{
+    <li class="list"><i></i><a asp-action="Index">列表</a></li>
+}
+
+@Html.Partial("_Details", Model)
+
+<form asp-action="Delete" asp-route-id="@Model.Prices_Id">
+    <div style="text-align:right;padding:5px 10px 0 0">
+        <input class="btn btn-danger btn-xs" type="submit" value=" 确认删除 " />
+    </div>
+</form>

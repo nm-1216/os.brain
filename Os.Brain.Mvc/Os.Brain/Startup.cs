@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Identity;
 using Microsoft.Data.Entity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Os.Brain.Core;
 using Os.Brain.Models;
 using Os.Brain.Services;
 
@@ -42,6 +40,7 @@ namespace Os.Brain
 
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<UploadFiles>(Configuration.GetSection("UploadFiles"));
 
             services.AddIdentity<User, Role>(options =>
             {
@@ -66,7 +65,10 @@ namespace Os.Brain
         //基于HTTP请求的Scope依赖注入 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            
+
+            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            //loggerFactory.AddProvider(new TextLoggerProvider(LogLevel.Debug, env));
             //loggerFactory.AddProvider(new AbstractLoggerProvider(LogLevel.Debug));
             loggerFactory.AddDebug();
 

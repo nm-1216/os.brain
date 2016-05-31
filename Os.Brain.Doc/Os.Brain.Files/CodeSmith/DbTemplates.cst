@@ -1402,8 +1402,10 @@ public string GetSqlParameterStatementWithDefaultValue(ColumnSchema column)
                   param += "(" + column.Precision + ", " + column.Scale + ")";
                   break;
             }
-			case DbType.String:
-			case DbType.AnsiString:
+			case DbType.AnsiStringFixedLength:/*char*/
+            case DbType.AnsiString:/*varchar*/
+			case DbType.StringFixedLength:/*nchar*/
+            case DbType.String:/*nvarchar text ntext*/
 			{
 				if(column.NativeType!="text")
 				{

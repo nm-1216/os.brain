@@ -1,0 +1,39 @@
+﻿@using Os.Brain.ViewModels.Water;
+
+@model WaterPaymentsViewModel
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+@section CssBlock{
+    .tab-list td{text-align:center}
+}
+
+@section Btn{
+    <li class="list"><i></i><a asp-action="Index">列表</a></li>
+}
+
+<table class="tab-list">
+    <tr>
+        <th>年</th>
+        <th>月</th>
+        <th>是否已经结算</th>
+    </tr>
+    <tr class="tr1">
+        <td>@Model.Year</td>
+        <td>@Model.Month</td>
+        <td>未结算</td>
+    </tr> 
+</table>
+
+
+<form asp-action="Delete">
+    <div class="form-actions no-color">
+        <input type="hidden" asp-for="Year" />
+        <input type="hidden" asp-for="Month" />
+        <input type="hidden" asp-for="IsExist" />
+        <div style="text-align:right;padding:5px 10px 0 0">
+            <input class="btn btn-danger btn-xs" type="submit" value=" 确认删除 " />
+        </div>
+    </div>
+</form>

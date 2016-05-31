@@ -1,0 +1,44 @@
+@model IEnumerable<Os.Brain.Models.PricesType>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.addTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isUse)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+        <th></th>
+    </tr>
+    
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.addTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isUse)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.name)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.ids">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.ids">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.ids">Delete</a>
+        </td>
+    </tr>
+}
+</table>

@@ -1,0 +1,36 @@
+@model Os.Brain.Models.PricesType
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PricesType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.addTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.addTime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.isUse)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.isUse)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+    </dl>
+</div>
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.ids">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</p>

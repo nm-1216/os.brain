@@ -40,9 +40,18 @@ namespace Os.Brain.Models
         public DbSet<Group> Group { get; set; }
 
         public DbSet<Cms_News> Cms_News { get; set; }
-        
 
+
+
+        public DbSet<WaterMeter> WaterMeter { get; set; }
+
+        public DbSet<PricesType> PricesType { get; set; }
+
+        public DbSet<WaterPrices> WaterPrices { get; set; }
+
+        public DbSet<WaterValue> WaterValue { get; set; }
+        public DbSet<WaterValueImport> WaterValueImport { get; set; }
+        public DbSet<WaterPayment> WaterPayment { get; set; }
 
     }
-
 }

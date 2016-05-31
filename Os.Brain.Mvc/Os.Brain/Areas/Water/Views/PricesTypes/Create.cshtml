@@ -1,0 +1,24 @@
+﻿@model Os.Brain.Models.PricesType
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+@section CssBlock{
+    .tl{width:350px}
+}
+
+@section Btn{
+    <li class="back"><i></i>@Html.ActionLink("返回", "Index")</li>
+}
+
+<form asp-controller="Manage" method="post" role="form">
+    <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+    <table class="tab-list">
+        <tr><td class="tl">名称</td><td class="tr"><input asp-for="name" style="width:200px" /><span asp-validation-for="name" class="text-danger"></span></td></tr>
+        <tr><td class="tl">是否启用</td><td class="tr"><input asp-for="isUse" style="width:300px" /><span asp-validation-for="isUse" class="text-danger"></span></td></tr>
+    </table>
+
+    <div style="text-align:right;padding:5px 10px 0 0">
+        <input class="btn btn-danger btn-xs" type="submit" value=" 确 定 " />
+    </div>
+</form>

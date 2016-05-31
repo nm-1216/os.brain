@@ -1,0 +1,31 @@
+﻿@model Os.Brain.Models.WaterMeter
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+@section CssBlock{
+    .tl{width:350px}
+}
+
+@section Btn{
+    <li class="list"><i></i><a asp-action="Index">列表</a></li>
+}
+
+
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Wm_IdCard" />
+    <table class="tab-list">
+        <tr><td class="tl">账号</td><td class="tr">@Html.DisplayFor(model => model.Wm_IdCard)</td></tr>
+        <tr><td class="tl">登录名</td><td class="tr"><input asp-for="Wm_LogName" style="width:200px" /><span asp-validation-for="Wm_LogName" class="text-danger"></span></td></tr>
+        <tr><td class="tl">电话</td><td class="tr"><input asp-for="Wm_Tel" style="width:200px" /><span asp-validation-for="Wm_Tel" class="text-danger"></span></td></tr>
+        <tr><td class="tl">微信</td><td class="tr"><input asp-for="Wm_Weixin" style="width:200px" /><span asp-validation-for="Wm_Weixin" class="text-danger"></span></td></tr>
+        <tr><td class="tl">电话</td><td class="tr"><input asp-for="isGroup" style="width:200px" /><span asp-validation-for="isGroup" class="text-danger"></span></td></tr>
+        <tr><td class="tl">地址</td><td class="tr"><input asp-for="isNeedPay" style="width:200px" /><span asp-validation-for="isNeedPay" class="text-danger"></span></td></tr>
+        <tr><td class="tl">关联用户</td><td class="tr"><input asp-for="Wu_id" style="width:200px" /><span asp-validation-for="Wu_id" class="text-danger"></span></td></tr>
+    </table>
+    <div style="text-align:right;padding:5px 10px 0 0">
+        <input class="btn btn-danger btn-xs" type="submit" value=" 确 定 " />
+    </div>
+</form>

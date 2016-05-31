@@ -18,7 +18,5 @@
         "net451": {
             "dependencies": {
             }
-        },
-        "dotnet5.4": { }
-    }
+        }   }
 }

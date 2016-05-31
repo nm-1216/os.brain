@@ -1,0 +1,61 @@
+﻿@model Os.Brain.Models.WaterPayment
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>WaterPayment</h4>
+        <hr />
+        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Wm_IdCard" />
+        <input type="hidden" asp-for="Wv_Year" />
+        <input type="hidden" asp-for="Wv_Month" />
+        <div class="form-group">
+            <label asp-for="PricesType_ids" class="control-label col-md-2">PricesType_ids</label>
+            <div class="col-md-10">
+                <select asp-for="PricesType_ids" class="form-control" />
+                <span asp-validation-for="PricesType_ids" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="addTime" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="addTime" class="form-control" />
+                <span asp-validation-for="addTime" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="prices" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="prices" class="form-control" />
+                <span asp-validation-for="prices" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="remark" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="remark" class="form-control" />
+                <span asp-validation-for="remark" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

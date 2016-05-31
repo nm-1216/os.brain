@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Os.Brain.Models.PricesType>
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+
+@section CssBlock{
+    .tab-list td{text-align:center}
+}
+
+@section Btn{
+    <li class="add"><i></i><a asp-action="Create">添加</a></li>
+}
+
+<table class="tab-list">
+    <tr>
+        <th width="350">名称</th>
+        <th width="350">是否启用</th>
+        <th>添加时间</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr class="tr@(Model.ToList().IndexOf(item)%2+1)">
+        <td>
+            <a asp-action="Details" asp-route-id="@item.ids">@item.name</a>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isUse)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.addTime)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.ids">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.ids">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.ids">Delete</a>
+        </td>
+    </tr>
+    }
+
+</table>
+

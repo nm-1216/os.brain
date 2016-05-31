@@ -40,4 +40,7 @@
     }
 
 </table>
-@Html.Raw(Os.Brain.Mvc.Pager.Pager.Pager1(Context.Request.Path.Value, Model.CurrPage, Model.PageSize, Model.PageCount, Model.RecordCount))
+<form asp-action="Index" id="mainForm">
+    <input type="hidden" name="Page" id="Page" value="ViewBag.Page" />
+    @Html.Raw(Os.Brain.Mvc.Pager.Pager.Pager1(Context.Request.Path.Value, Model.CurrPage, Model.PageSize, Model.PageCount, Model.RecordCount))
+</form>

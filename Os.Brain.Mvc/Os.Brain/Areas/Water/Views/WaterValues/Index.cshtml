@@ -1,0 +1,94 @@
+﻿@model Os.Brain.Mvc.Pager.PageList<Os.Brain.Models.WaterValue>
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+
+@section CssBlock{
+    .tab-list td{text-align:center}
+}
+
+@section Btn{
+    <li class="add"><i></i><a asp-action="Create">导入</a></li>
+}
+
+@section TabsLi{
+    <li data-val="#tabs-2" class="clearfix"><div><div>搜索</div></div></li>
+}
+
+<form asp-action="Index" id="mainForm">
+    <div id="tabs-1" class="tabs-con-box">
+        <table class="tab-list">
+            <tr>
+                <th>用户</th>
+                <th>年份</th>
+                <th>月份</th>
+                <th>起始</th>
+                <th>结束</th>
+                <th>用量</th>
+                <th>抄表时间</th>
+                <th>操作时间</th>
+                <th>是否换表</th>
+                <th>状态</th>
+                <th>添加时间</th>
+                <th>添加人</th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+            <tr class="tr@(Model.ToList().IndexOf(item)%2+1)">
+                <td>@Html.DisplayFor(modelItem => item.Wm_IdCard)</td>
+                <td>@Html.DisplayFor(modelItem => item.Wv_Year)</td>
+                <td>@Html.DisplayFor(modelItem => item.Wv_Month)</td>
+
+                <td>@Html.DisplayFor(modelItem => item.Wv_Start)</td>
+                <td>@Html.DisplayFor(modelItem => item.Wv_End)</td>
+                <th>@(item.Wv_End-item.Wv_Start)</th>
+                <td>@item.Wv_ReadTime.ToString("yyyy-MM-dd HH:mm")</td>
+
+                <td>@item.Wv_DoTime.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@Html.DisplayFor(modelItem => item.Wv_ExChange)</td>
+                <td>@Html.DisplayFor(modelItem => item.Wv_Status)</td>
+
+                <td>@item.Wv_AddTime.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@Html.DisplayFor(modelItem => item.Wv_AddUser)</td>
+
+
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {  id=item.Wm_IdCard,year=item.Wv_Year,month=item.Wv_Month  }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Wm_IdCard, year = item.Wv_Year, month = item.Wv_Month }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Wm_IdCard, year = item.Wv_Year, month = item.Wv_Month }) 
+                </td>
+            </tr>
+            }
+        </table>
+        <input type="hidden" name="Page" id="Page" value="ViewBag.Page" />
+        @Html.Raw(Os.Brain.Mvc.Pager.Pager.Pager1(Context.Request.Path.Value, Model.CurrPage, Model.PageSize, Model.PageCount, Model.RecordCount))
+    </div>
+
+    <div id="tabs-2" class="tabs-con-box collapse">
+        <table class="tab-list">
+            <tr>
+                <td class="tl">
+                    用户:
+                    @Html.TextBox("id", string.Empty)
+                </td>
+                <td class="tl">
+                    年份:
+                    @Html.TextBox("year", string.Empty)
+                </td>
+                <td class="tl">
+                    月份:
+                    @Html.TextBox("month", string.Empty)
+                </td>
+
+                <td class="tr">
+                    <input class="btn-submit" type="submit" value=" 搜 索 ">
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+

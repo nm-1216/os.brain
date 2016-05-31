@@ -1,0 +1,29 @@
+﻿@model Os.Brain.Models.WaterUser
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+@section CssBlock{
+    .tl{width:350px}
+}
+
+@section Btn{
+    <li class="list"><i></i><a asp-action="Index">列表</a></li>
+}
+
+
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Wu_id" />
+    <table class="tab-list">
+        <tr><td class="tl">村庄</td><td class="tr"><input asp-for="Wu_Village" style="width:200px" /><span asp-validation-for="Wu_Village" class="text-danger"></span></td></tr>
+        <tr><td class="tl">用户名</td><td class="tr"><input asp-for="Wu_Name" style="width:200px" /><span asp-validation-for="Wu_Name" class="text-danger"></span></td></tr>
+        <tr><td class="tl">电话</td><td class="tr"><input asp-for="Wu_Tel" style="width:200px" /><span asp-validation-for="Wu_Tel" class="text-danger"></span></td></tr>
+        <tr><td class="tl">地址</td><td class="tr"><input asp-for="Wu_Address" style="width:200px" /><span asp-validation-for="Wu_Address" class="text-danger"></span></td></tr>
+    </table>
+
+    <div style="text-align:right;padding:5px 10px 0 0">
+        <input class="btn btn-danger btn-xs" type="submit" value=" 确 定 " />
+    </div>
+</form>

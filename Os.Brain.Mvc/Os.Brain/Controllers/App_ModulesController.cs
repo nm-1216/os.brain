@@ -12,8 +12,6 @@ namespace Os.Brain.Controllers
 
     public class App_ModulesController<T> : Controller
     {
-        //public readonly UserManager<User> _userManager;
-
         [FromServices]
         public ApplicationDbContext _context { get; set; }
 

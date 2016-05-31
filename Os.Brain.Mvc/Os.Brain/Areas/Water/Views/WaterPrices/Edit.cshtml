@@ -1,0 +1,28 @@
+﻿@model Os.Brain.Models.WaterPrices
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+@section CssBlock{
+    .tl{width:350px}
+}
+
+@section Btn{
+    <li class="back"><i></i>@Html.ActionLink("返回", "Index")</li>
+}
+
+<form asp-controller="Manage" method="post" role="form">
+    <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Prices_Id" />
+
+    <table class="tab-list">
+        <tr><td class="tl">水价</td><td class="tr"><input asp-for="Prices_Value" style="width:200px" /><span asp-validation-for="Prices_Value" class="text-danger"></span></td></tr>
+        <tr><td class="tl">开始吨位</td><td class="tr"><input asp-for="Prices_Start" style="width:300px" /><span asp-validation-for="Prices_Start" class="text-danger"></span></td></tr>
+        <tr><td class="tl">结束吨位</td><td class="tr"><input asp-for="Prices_End" style="width:200px" /><span asp-validation-for="Prices_End" class="text-danger"></span></td></tr>
+        <tr><td class="tl">价格类</td><td class="tr"><input asp-for="ids" style="width:300px" /><span asp-validation-for="ids" class="text-danger"></span></td></tr>
+    </table>
+
+    <div style="text-align:right;padding:5px 10px 0 0">
+        <input class="btn btn-danger btn-xs" type="submit" value=" 确 定 " />
+    </div>
+</form>

@@ -1,0 +1,70 @@
+﻿@model Os.Brain.Mvc.Pager.PageList<Os.Brain.Models.WaterMeter>
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+
+@section CssBlock{
+    .tab-list td{text-align:center}
+}
+
+@section Btn{
+    <li class="add"><i></i><a asp-action="Create">导入</a></li>
+}
+
+@section TabsLi{
+    <li data-val="#tabs-2" class="clearfix"><div><div>搜索</div></div></li>
+}
+
+
+<form asp-action="Index" id="mainForm">
+    <div id="tabs-1" class="tabs-con-box">
+        <table class="tab-list">
+            <tr>
+                <th>账号</th>
+                <th>姓名</th>
+                <th>社区</th>                
+                <th>电话</th>                
+                <th>集体表</th>
+                <th>缴费</th>
+                <th>地址</th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+            <tr class="tr@(Model.ToList().IndexOf(item)%2+1)">
+                <td>@Html.DisplayFor(modelItem => item.Wm_IdCard)</td>
+                <td>@item.Wu_Name</td>
+                <td>@item.Wu_Village</td>
+                <td>@Html.DisplayFor(modelItem => item.Wm_Tel)</td>
+                <td>@Html.DisplayFor(modelItem => item.isGroup)</td>
+                <td>@Html.DisplayFor(modelItem => item.isNeedPay)</td>
+                <td>@Html.DisplayFor(modelItem => item.Wu_Address)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Wm_IdCard">修改</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Wm_IdCard">删除</a>
+                </td>
+            </tr>
+            }
+        </table>
+
+        <input type="hidden" name="Page" id="Page" value="ViewBag.Page" />
+        @Html.Raw(Os.Brain.Mvc.Pager.Pager.Pager1(Context.Request.Path.Value, Model.CurrPage, Model.PageSize, Model.PageCount, Model.RecordCount))
+    </div>
+
+    <div id="tabs-2" class="tabs-con-box collapse">
+        <table class="tab-list">
+            <tr>
+                <td class="tl">
+                    水表编号（用户号）:
+                    @Html.TextBox("IdCard", string.Empty)
+                </td>
+                <td class="tr">
+                    <input class="btn-submit" type="submit" value=" 搜 索 ">
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+

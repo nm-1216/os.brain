@@ -1,0 +1,126 @@
+﻿@model Os.Brain.Mvc.Pager.PageList<Os.Brain.Models.WaterPayment>
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+
+@section CssBlock{
+    .tab-list td{text-align:center}
+    td.tdFalse{background-color:#d9534f}
+    td.tdTrue{background-color:#5cb85c}
+}
+
+@section JsFileBlock{
+    <script src="/lib/layer/layer.js"></script>
+    <script src="~/js/LodopFuncs.js"></script>
+    <script src="~/js/print.js"></script>
+
+}
+
+@section AutoJsBlock{
+    $('.btn-pay').on('click', function () {
+    var id=$(this).attr('data-id');
+    var year=$(this).attr('data-year');
+    var month=$(this).attr('data-month');
+    layer.open({
+        type: 2,
+        title: '确认收费',
+        skin: 'layui-layer-molv',
+        shadeClose: true,
+        shade: 0.8,
+        area: ['500px', '270px'],
+        content: '/water/WaterPayments/Details?id='+id+"&year="+year+"&month="+month,
+        end: function () {
+            location.reload();
+        }
+    });
+    });
+
+}
+@section TabsLi{
+    <li data-val="#tabs-2" class="clearfix"><div><div>搜索</div></div></li>
+}
+<form id="mainForm">
+    <div id="tabs-1" class="tabs-con-box">
+        <table class="tab-list">
+            <tr>
+                <th style="width:80px">户号</th>
+                <th style="width:100px">姓名</th>
+                <th style="width:100px">电话</th>
+                <th style="width:100px">社区</th>
+                <th>地址</th>
+                <th style="width:90px">年份/月份</th>
+                <th style="width:100px">金额</th>
+                <th style="width:100px">已缴</th>
+
+                <th style="width:80px">收费与打印</th>
+            </tr>
+
+            @foreach (var item in Model)
+    {
+            <tr class="tr@(Model.ToList().IndexOf(item) % 2 + 1)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Wm_IdCard)
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.WaterValue.WaterMeter.Wu_Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.WaterValue.WaterMeter.Wm_Tel)</td>
+                <td>@Html.DisplayFor(modelItem => item.WaterValue.WaterMeter.Wu_Village)</td>
+                <td>@Html.DisplayFor(modelItem => item.WaterValue.WaterMeter.Wu_Address)</td>
+
+                <td>
+                    @string.Format("{0}/{1}",item.Wv_Year,item.Wv_Month)
+                </td>
+                <td class="td@(item.IsPay)">
+                    @Html.DisplayFor(modelItem => item.prices)
+                </td>
+                <td class="td@(item.IsPay)">
+                    @Html.DisplayFor(modelItem => item.IsPay)
+                </td>
+                <td>
+                    @if (!item.IsPay)
+            {
+                <input class="btn btn-danger btn-pay btn-xs" type="button" data-id="@item.Wm_IdCard" data-year="@item.Wv_Year" data-month="@((int)item.Wv_Month)" value=" 收费 " />
+            }
+            else
+            {
+                <input class="btn btn-success btn-print btn-xs" type="button" onclick="Prn_Print()" value=" 打印 " />
+            }
+                </td>
+            </tr>
+    }
+
+        </table>
+        <input type="hidden" name="Page" id="Page" value="ViewBag.Page" />
+        @Html.Raw(Os.Brain.Mvc.Pager.Pager.Pager1(Context.Request.Path.Value, Model.CurrPage, Model.PageSize, Model.PageCount, Model.RecordCount))
+    </div>
+
+    <div id="tabs-2" class="tabs-con-box collapse">
+        <table class="tab-list">
+            <tr>
+                <td class="tl">
+                    用户:
+                    @Html.TextBox("id", string.Empty)
+                </td>
+                <td class="tl">
+                    姓名:
+                    @Html.TextBox("uname", string.Empty)
+                </td>
+                <td class="tl">
+                    年份:
+                    @Html.TextBox("year", string.Empty)
+                </td>
+                <td class="tl">
+                    月份:
+                    @Html.TextBox("month", string.Empty)
+                </td>
+                <td class="tl">
+                    是否已缴:
+                    @Html.DropDownList("isPay", new SelectListItem[] { new SelectListItem() {  Text="==全部==", Value=""}, new SelectListItem() { Text = "已缴", Value = true.ToString() }, new SelectListItem() { Text = "未缴", Value = false.ToString() } })
+                </td>
+                <td class="tr">
+                    <input class="btn-submit" type="submit" value=" 搜 索 ">
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</form>

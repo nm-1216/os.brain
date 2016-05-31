@@ -6,6 +6,7 @@ namespace Os.Brain.Models
     using Microsoft.AspNet.Identity.EntityFramework;
     using Microsoft.Data.Entity;
     using Microsoft.Data.Entity.Infrastructure;
+    using TEST;
     using WMS;
     /// <summary>
     /// Base class for the Entity Framework database context used for identity.
@@ -17,8 +18,8 @@ namespace Os.Brain.Models
     /// </summary>
     /// <typeparam name="TUser">The type of the user objects.</typeparam>
     public class AppDbContext<TUser> : AppDbContext<TUser, Role, string> where TUser : User
-    { 
-        public AppDbContext(DbContextOptions options):base(options)
+    {
+        public AppDbContext(DbContextOptions options) : base(options)
         {
 
         }
@@ -36,7 +37,7 @@ namespace Os.Brain.Models
         /// <param name="options">The options to be used by a <see cref="DbContext"/>.</param>
         public AppDbContext(DbContextOptions options) : base(options)
         {
-            
+
         }
 
         /// <summary>
@@ -55,7 +56,7 @@ namespace Os.Brain.Models
         /// <param name="serviceProvider"> The service provider to be used.</param>
         public AppDbContext(IServiceProvider serviceProvider, DbContextOptions options) : base(serviceProvider, options)
         {
-            
+
         }
 
         /// <summary>
@@ -91,7 +92,6 @@ namespace Os.Brain.Models
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
             #region 基础模块
 
             #region 关系表
@@ -166,7 +166,7 @@ namespace Os.Brain.Models
             builder.Entity<Models.Action<TKey>>(b =>
             {
                 b.HasKey(r => r.ActionId);
-                b.ToTable("AspNetActions");                
+                b.ToTable("AspNetActions");
                 b.HasMany(u => u.Roles).WithOne().HasForeignKey(ur => ur.ActionId).IsRequired();
             });
 
@@ -230,9 +230,6 @@ namespace Os.Brain.Models
             #endregion
 
             #endregion
-
-
-
 
             #region 仓储
             #region module
@@ -308,8 +305,124 @@ namespace Os.Brain.Models
 
             #endregion
 
+            #region 水费
+
+            #region 关系表
+
+            builder.Entity<PricesType>(b =>
+            {
+                b.HasKey(r => r.ids);
+                b.ToTable("WaterPricesTypes");
+            });
+
+            builder.Entity<WaterPrices>(b =>
+            {
+                b.HasKey(r => r.Prices_Id);
+                b.ToTable("WaterPrices");
+            });
+
+            builder.Entity<WaterMeter>(b =>
+            {
+                b.HasKey(r => r.Wm_IdCard);
+                b.ToTable("WaterMeters");
+            });
+
+            builder.Entity<WaterValue>(b =>
+            {
+                b.HasKey(r => new { r.Wm_IdCard, r.Wv_Year, r.Wv_Month });
+                b.ToTable("WaterValues");
+            });
+
+            builder.Entity<WaterValueImport>(b =>
+            {
+                b.HasKey(r => new { r.Wm_IdCard, r.Wv_Year, r.Wv_Month });
+                b.ToTable("WaterValueImports");
+            });
+            builder.Entity<WaterPayment>(b =>
+            {
+                b.HasKey(r => new { r.Wm_IdCard, r.Wv_Year, r.Wv_Month });
+                b.ToTable("WaterPayments");
+            });
+            #endregion
+
+            #region Models
+
+            builder.Entity<PricesType>(b =>
+            {
+                b.Property(u => u.name).HasMaxLength(128).IsRequired();
+                b.Property(u => u.isUse).IsRequired();
+                b.Property(u => u.addTime).IsRequired();
+                b.HasMany(u => u.WaterPrices).WithOne().HasForeignKey(ur => ur.ids).IsRequired();
+            });
+
+            builder.Entity<WaterPrices>(b =>
+            {
+                b.Property(u => u.Prices_Value).IsRequired();
+                b.Property(u => u.Prices_Start).IsRequired();
+                b.Property(u => u.Prices_End).IsRequired();
+                b.Property(u => u.Prices_AddTime).IsRequired();
+            });
+
+            builder.Entity<WaterMeter>(b =>
+            {
+                b.Property(u => u.Wm_IdCard).HasMaxLength(32);
+                b.Property(u => u.Wm_LogName).HasMaxLength(64).IsRequired();
+                b.Property(u => u.Wm_Weixin).HasMaxLength(128).IsRequired();
+                b.Property(u => u.Wm_Tel).HasMaxLength(64).IsRequired();
+                b.Property(u => u.Wm_Pwd).IsRequired();
+                b.Property(u => u.isGroup).IsRequired();
+                b.Property(u => u.isNeedPay).IsRequired();
+                b.Property(u => u.Wu_Address).HasMaxLength(128).IsRequired();
+                b.Property(u => u.Wu_Name).HasMaxLength(64).IsRequired();
+                b.Property(u => u.Wu_Village).HasMaxLength(128).IsRequired();
+            });
+
+            builder.Entity<WaterValue>(b =>
+            {
+                b.Property(u => u.Wm_IdCard).HasMaxLength(32);
+                b.Property(u => u.Wv_AddTime).IsRequired();
+                b.Property(u => u.Wv_AddUser).HasMaxLength(128).IsRequired();
+                b.Property(u => u.Wv_End).IsRequired();
+                b.Property(u => u.Wv_ExChange).IsRequired();
+                b.Property(u => u.Wv_ReadTime).IsRequired();
+                b.Property(u => u.Wv_Start).IsRequired();
+                b.Property(u => u.Wv_Status).IsRequired();
+                b.HasOne(u => u.WaterMeter).WithMany().HasForeignKey(u => u.Wm_IdCard);
+            });
+
+            builder.Entity<WaterValueImport>(b =>
+            {
+                b.Property(u => u.Wm_IdCard).HasMaxLength(32);
+                b.Property(u => u.Wv_AddTime).IsRequired();
+                b.Property(u => u.Wv_AddUser).HasMaxLength(128).IsRequired();
+                b.Property(u => u.Wv_End).IsRequired();
+                b.Property(u => u.Wv_ExChange).IsRequired();
+                b.Property(u => u.Wv_ReadTime).IsRequired();
+                b.Property(u => u.Wv_Status).IsRequired();
+                b.HasOne(u => u.WaterMeter).WithMany().HasForeignKey(u => u.Wm_IdCard);
+
+            });
+
+            builder.Entity<WaterPayment>(b =>
+            {
+                b.Property(u => u.Wm_IdCard).HasMaxLength(32);
+                b.HasOne(u => u.WaterValue)
+                .WithMany()
+                .HasForeignKey(s => new { s.Wm_IdCard, s.Wv_Year, s.Wv_Month })
+                .HasPrincipalKey(c => new { c.Wm_IdCard, c.Wv_Year, c.Wv_Month });
+                b.HasOne(u => u.PricesType).WithMany().HasForeignKey(s => s.PricesType_ids);
+            });
+
+            #endregion
+            
+            #endregion
+
+
+
             base.OnModelCreating(builder);
 
         }
+
+
     }
 }

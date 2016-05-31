@@ -1,0 +1,20 @@
+﻿@model Os.Brain.Models.WaterValue
+
+<table class="tab-list">
+    <tr><td class="tl">用户</td><td class="tr">@Html.DisplayFor(model => model.Wm_IdCard)</td></tr>
+    <tr><td class="tl">年份</td><td class="tr">@Html.DisplayFor(model => model.Wv_Year)</td></tr>
+    <tr><td class="tl">月份</td><td class="tr">@Html.DisplayFor(model => model.Wv_Month)</td></tr>
+
+    <tr><td class="tl">开始读数</td><td class="tr">@Html.DisplayFor(model => model.Wv_Start)</td></tr>
+    <tr><td class="tl">结束读数</td><td class="tr">@Html.DisplayFor(model => model.Wv_End)</td></tr>
+    <tr><td class="tl">抄表时间</td><td class="tr">@Html.DisplayFor(model => model.Wv_ReadTime)</td></tr>
+
+    <tr><td class="tl">操作时间</td><td class="tr">@Html.DisplayFor(model => model.Wv_DoTime)</td></tr>
+    <tr><td class="tl">是否换表</td><td class="tr">@Html.DisplayFor(model => model.Wv_ExChange)</td></tr>
+
+    <tr><td class="tl">状态</td><td class="tr">@Html.DisplayFor(model => model.Wv_Status)</td></tr>
+
+    <tr><td class="tl">添加时间</td><td class="tr">@Html.DisplayFor(model => model.Wv_AddTime)</td></tr>
+    <tr><td class="tl">添加人</td><td class="tr">@Html.DisplayFor(model => model.Wv_AddUser)</td></tr>
+
+</table>

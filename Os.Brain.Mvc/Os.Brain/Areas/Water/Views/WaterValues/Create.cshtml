@@ -1,0 +1,24 @@
+﻿@model Os.Brain.Models.WaterValue
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+
+@section CssFileBlock{
+    <link href="https://cdn.bootcss.com/bootstrap-fileinput/4.3.1/css/fileinput.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap-fileinput/4.3.1/js/fileinput.min.js"></script>
+}
+
+
+@section Btn{
+    <li class="back"><i></i>@Html.ActionLink("返回", "Index")</li>
+}
+
+<form asp-action="Create" enctype="multipart/form-data">
+    <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+    <label class="control-label">Select File</label>
+    <input name="files" type="file" class="file" data-show-upload="false" data-show-preview="true" data-allowed-file-extensions='["xls", "xlsx"]' />
+    <div style="text-align:right;padding:5px 10px 0 0">
+        <input class="btn btn-danger btn-xs" type="submit" value=" 确 定 " />
+    </div>
+</form>

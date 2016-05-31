@@ -1,0 +1,14 @@
+﻿@media (min-width: 980px) {
+    .page-sidebar {
+        position: absolute;
+        width: 225px;
+    }
+
+    .page-content { 
+  		margin-left: 225px; 
+		margin-top: 0px;
+		min-height: 500px; 
+        background:#ccc;
+	}
+
+}

@@ -1,0 +1,15 @@
+﻿@model Os.Brain.Models.WaterPrices
+
+@{
+    Layout = "~/Views/Shared/_Modules.cshtml";
+}
+@section CssBlock{
+    .tl{width:350px}
+}
+
+@section Btn{
+    <li class="list"><i></i><a asp-action="Index">列表</a></li>
+}
+
+@Html.Partial("_Details", Model)
+

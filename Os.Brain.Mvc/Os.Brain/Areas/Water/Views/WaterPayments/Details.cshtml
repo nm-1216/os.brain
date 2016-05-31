@@ -1,0 +1,100 @@
+﻿@model Os.Brain.Models.WaterPayment
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@string.Format("{0} - {1}", ViewData["Title"], "权限管理系统(Os.Brain)").Trim(' ', '-')</title>
+
+    <link href="~/css/model.css" rel="stylesheet" />
+    <style type="text/css">
+        .tab-list td.text-left {
+            text-align:left
+        }
+        .tab-list td {
+            text-align:center
+        }
+
+        .os-fw-bd {
+            padding: 0;
+        }
+
+        .t0 {
+            width: 120px;
+        }
+
+        .t1 {
+            width: 120px;
+        }
+
+        table.tab-list {
+            border: 0 !important;
+        }
+
+            table.tab-list td,
+            table.tab-list th {
+                border: 0 !important;
+            }
+    </style>
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/js/LodopFuncs.js"></script>
+        <script src="~/js/print.js"></script>
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/js/LodopFuncs.js"></script>
+        <script src="~/js/print.js"></script>
+
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
+    </environment>
+    <script type="text/javascript">
+        function AspNetPager(page) {
+            $('#Page').val(page);
+            $('#mainForm').submit()
+        }
+    </script>
+</head>
+<body>
+    <div style="display:none">
+        <object id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
+            <embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
+        </object>
+    </div>
+    <div id="tabs-1" class="os-fw-bd">
+        <table class="tab-list">
+            <tr class="tr1"><td>用户:</td><td class="text-left">@Model.WaterValue.WaterMeter.Wu_Name (@Model.Wm_IdCard)</td></tr>
+            <tr class="tr2"><td>社区:</td><td class="text-left">@Model.WaterValue.WaterMeter.Wu_Village</td></tr>
+            <tr class="tr1"><td>地址:</td><td class="text-left">@Model.WaterValue.WaterMeter.Wu_Address</td></tr>
+            <tr class="tr2"><td>月份:</td><td class="text-left">@Model.Wv_Year/@Model.Wv_Month</td></tr>
+            <tr class="tr1"><td>水量:</td><td class="text-left">@(Model.WaterValue.Wv_End - Model.WaterValue.Wv_Start)</td></tr>
+            <tr class="tr2"><td>金额:</td><td class="text-left">@Model.prices</td></tr>
+            <tr>
+                <td colspan="2" style="padding:5px 0">
+                    @if (!Model.IsPay)
+                    {
+                    <form asp-action="Details" asp-route-id="@Model.Wm_IdCard" asp-route-year="@Model.Wv_Year" asp-route-month="@Model.Wv_Month">
+                        <input class="btn btn-danger btn-print btn-sm" type="submit" value=" 确认收费 " />
+                    </form>
+                    }
+                    else
+                    {
+                        <input class="btn btn-info btn-print btn-sm" type="button" onclick="CheckIsInstall()" value="检查打印控件" />
+                        <input class="btn btn-info btn-print btn-sm" type="button" onclick="Prn_Preview()" value="打印预览" />
+                        <input class="btn btn-success btn-print btn-sm" type="button" onclick="Prn_Print()" value="打印" />
+                        <input class="btn btn-info btn-print btn-sm" type="button" onclick="Prn_manage()" value="打印维护" />
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

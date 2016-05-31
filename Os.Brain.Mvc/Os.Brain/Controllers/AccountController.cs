@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -7,15 +6,12 @@ using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
-using Microsoft.Data.Entity;
-using Microsoft.Extensions.Logging;
 using Os.Brain.Models;
 using Os.Brain.Services;
 using Os.Brain.ViewModels.Account;
 using Os.Brain.Mvc.Pager;
-using Microsoft.AspNet.Http.Features;
 using Microsoft.AspNet.Http;
-using System.Net;
+using Microsoft.Extensions.Logging;
 
 namespace Os.Brain.Controllers
 {
@@ -37,7 +33,7 @@ namespace Os.Brain.Controllers
             SignInManager<User> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            LoggerFactory loggerFactory)
         {
             _dbContext = dbContext;
             _userManager = userManager;

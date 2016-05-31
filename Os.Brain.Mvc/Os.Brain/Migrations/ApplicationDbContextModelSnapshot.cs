@@ -388,6 +388,24 @@ namespace os.brain.Migrations
                     b.HasAnnotation("Relational:TableName", "AspNetPersonalizationPerUser");
                 });
 
+            modelBuilder.Entity("Os.Brain.Models.PricesType", b =>
+                {
+                    b.Property<int>("ids")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("addTime");
+
+                    b.Property<bool>("isUse");
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 128);
+
+                    b.HasKey("ids");
+
+                    b.HasAnnotation("Relational:TableName", "WaterPricesTypes");
+                });
+
             modelBuilder.Entity("Os.Brain.Models.Role", b =>
                 {
                     b.Property<string>("Id");
@@ -531,6 +549,173 @@ namespace os.brain.Migrations
                     b.HasKey("UserId", "GroupId");
 
                     b.HasAnnotation("Relational:TableName", "AspNetUserGroups");
+                });
+
+            modelBuilder.Entity("Os.Brain.Models.WaterMeter", b =>
+                {
+                    b.Property<string>("Wm_IdCard")
+                        .HasAnnotation("MaxLength", 32);
+
+                    b.Property<string>("Wm_LogName")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 64);
+
+                    b.Property<string>("Wm_Pwd")
+                        .IsRequired();
+
+                    b.Property<string>("Wm_Tel")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 64);
+
+                    b.Property<string>("Wm_Weixin")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 128);
+
+                    b.Property<string>("Wu_Address")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 128);
+
+                    b.Property<string>("Wu_Name")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 64);
+
+                    b.Property<string>("Wu_Village")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 128);
+
+                    b.Property<bool>("isGroup");
+
+                    b.Property<bool>("isNeedPay");
+
+                    b.HasKey("Wm_IdCard");
+
+                    b.HasAnnotation("Relational:TableName", "WaterMeters");
+                });
+
+            modelBuilder.Entity("Os.Brain.Models.WaterPayment", b =>
+                {
+                    b.Property<string>("Wm_IdCard")
+                        .HasAnnotation("MaxLength", 32);
+
+                    b.Property<int>("Wv_Year");
+
+                    b.Property<int>("Wv_Month");
+
+                    b.Property<bool>("IsPay");
+
+                    b.Property<DateTime?>("PayTime");
+
+                    b.Property<int>("PricesType_ids");
+
+                    b.Property<DateTime>("addTime");
+
+                    b.Property<float>("prices");
+
+                    b.Property<string>("remark");
+
+                    b.HasKey("Wm_IdCard", "Wv_Year", "Wv_Month");
+
+                    b.HasAnnotation("Relational:TableName", "WaterPayments");
+                });
+
+            modelBuilder.Entity("Os.Brain.Models.WaterPrices", b =>
+                {
+                    b.Property<int>("Prices_Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Prices_AddTime");
+
+                    b.Property<int>("Prices_End");
+
+                    b.Property<int>("Prices_Start");
+
+                    b.Property<double>("Prices_Value");
+
+                    b.Property<int>("ids");
+
+                    b.HasKey("Prices_Id");
+
+                    b.HasAnnotation("Relational:TableName", "WaterPrices");
+                });
+
+            modelBuilder.Entity("Os.Brain.Models.WaterValue", b =>
+                {
+                    b.Property<string>("Wm_IdCard")
+                        .HasAnnotation("MaxLength", 32);
+
+                    b.Property<int>("Wv_Year");
+
+                    b.Property<int>("Wv_Month");
+
+                    b.Property<DateTime>("Wv_AddTime");
+
+                    b.Property<string>("Wv_AddUser")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 128);
+
+                    b.Property<DateTime>("Wv_DoTime");
+
+                    b.Property<int>("Wv_End");
+
+                    b.Property<int>("Wv_ExChange");
+
+                    b.Property<int>("Wv_OldEnd");
+
+                    b.Property<int>("Wv_OldStart");
+
+                    b.Property<double>("Wv_Price");
+
+                    b.Property<int>("Wv_Prints");
+
+                    b.Property<DateTime>("Wv_ReadTime");
+
+                    b.Property<int>("Wv_Start");
+
+                    b.Property<int>("Wv_Status");
+
+                    b.HasKey("Wm_IdCard", "Wv_Year", "Wv_Month");
+
+                    b.HasAnnotation("Relational:TableName", "WaterValues");
+                });
+
+            modelBuilder.Entity("Os.Brain.Models.WaterValueImport", b =>
+                {
+                    b.Property<string>("Wm_IdCard")
+                        .HasAnnotation("MaxLength", 32);
+
+                    b.Property<int>("Wv_Year");
+
+                    b.Property<int>("Wv_Month");
+
+                    b.Property<DateTime>("Wv_AddTime");
+
+                    b.Property<string>("Wv_AddUser")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 128);
+
+                    b.Property<DateTime>("Wv_DoTime");
+
+                    b.Property<int>("Wv_End");
+
+                    b.Property<int>("Wv_ExChange");
+
+                    b.Property<int>("Wv_OldEnd");
+
+                    b.Property<int>("Wv_OldStart");
+
+                    b.Property<double>("Wv_Price");
+
+                    b.Property<int>("Wv_Prints");
+
+                    b.Property<DateTime>("Wv_ReadTime");
+
+                    b.Property<int?>("Wv_Start");
+
+                    b.Property<int>("Wv_Status");
+
+                    b.HasKey("Wm_IdCard", "Wv_Year", "Wv_Month");
+
+                    b.HasAnnotation("Relational:TableName", "WaterValueImports");
                 });
 
             modelBuilder.Entity("Os.Brain.Models.WMS.BinLocation", b =>
@@ -856,6 +1041,38 @@ namespace os.brain.Migrations
                     b.HasOne("Os.Brain.Models.User")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Os.Brain.Models.WaterPayment", b =>
+                {
+                    b.HasOne("Os.Brain.Models.PricesType")
+                        .WithMany()
+                        .HasForeignKey("PricesType_ids");
+
+                    b.HasOne("Os.Brain.Models.WaterValue")
+                        .WithMany()
+                        .HasForeignKey("Wm_IdCard", "Wv_Year", "Wv_Month");
+                });
+
+            modelBuilder.Entity("Os.Brain.Models.WaterPrices", b =>
+                {
+                    b.HasOne("Os.Brain.Models.PricesType")
+                        .WithMany()
+                        .HasForeignKey("ids");
+                });
+
+            modelBuilder.Entity("Os.Brain.Models.WaterValue", b =>
+                {
+                    b.HasOne("Os.Brain.Models.WaterMeter")
+                        .WithMany()
+                        .HasForeignKey("Wm_IdCard");
+                });
+
+            modelBuilder.Entity("Os.Brain.Models.WaterValueImport", b =>
+                {
+                    b.HasOne("Os.Brain.Models.WaterMeter")
+                        .WithMany()
+                        .HasForeignKey("Wm_IdCard");
                 });
 
             modelBuilder.Entity("Os.Brain.Models.WMS.Tray", b =>
